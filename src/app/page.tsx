@@ -15,6 +15,7 @@ export default function Home() {
   const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
   const [showQuickAdd, setShowQuickAdd] = useState(false);
   const [showRetainerAdd, setShowRetainerAdd] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   if (!loaded) return <div className="flex items-center justify-center h-screen text-gray-400">Loading...</div>;
@@ -31,6 +32,16 @@ export default function Home() {
     ));
   }
 
+  function handleMoveDeal(dealId: string, newStage: Stage) {
+    updateDeals(prev => prev.map(d => d.id === dealId
+      ? addActivity({ ...d, stage: newStage }, 'stage_change', `Moved to ${newStage}`)
+      : d
+    ));
+    if (selectedDeal?.id === dealId) {
+      setSelectedDeal(prev => prev ? { ...prev, stage: newStage } : null);
+    }
+  }
+
   return (
     <div className="flex flex-col h-screen">
       {/* Header */}
@@ -39,7 +50,9 @@ export default function Home() {
           <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm">DW</div>
           <span className="font-semibold text-lg hidden sm:block">Digitalwiz CRM</span>
         </div>
-        <nav className="flex gap-1">
+
+        {/* Desktop nav */}
+        <nav className="hidden sm:flex gap-1">
           {(['dashboard', 'pipeline', 'retainers'] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-3 py-1.5 rounded-lg text-sm capitalize transition ${tab === t ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}>
@@ -47,7 +60,9 @@ export default function Home() {
             </button>
           ))}
         </nav>
-        <div className="flex gap-2">
+
+        {/* Desktop export/import */}
+        <div className="hidden sm:flex gap-2">
           <button onClick={() => { const b = new Blob([exportData()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); }}
             className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded">Export</button>
           <button onClick={() => fileRef.current?.click()} className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded">Import</button>
@@ -56,59 +71,101 @@ export default function Home() {
             f.text().then(t => { importData(t); window.location.reload(); });
           }} />
         </div>
+
+        {/* Mobile hamburger */}
+        <button onClick={() => setMobileMenuOpen(true)} className="sm:hidden text-2xl text-gray-300 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center">
+          ☰
+        </button>
       </header>
+
+      {/* Mobile slide-out menu */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-[60] sm:hidden" onClick={() => setMobileMenuOpen(false)}>
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute top-0 right-0 w-64 h-full bg-gray-900 border-l border-gray-800 p-4 flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <span className="font-semibold text-lg">Menu</span>
+              <button onClick={() => setMobileMenuOpen(false)} className="text-gray-400 hover:text-white text-2xl min-h-[44px] min-w-[44px] flex items-center justify-center">×</button>
+            </div>
+            <nav className="flex flex-col gap-1">
+              {(['dashboard', 'pipeline', 'retainers'] as Tab[]).map(t => (
+                <button key={t} onClick={() => { setTab(t); setMobileMenuOpen(false); }}
+                  className={`px-4 py-3 rounded-lg text-left text-base capitalize transition min-h-[44px] ${tab === t ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-800'}`}>
+                  {t === 'dashboard' ? '📊 Dashboard' : t === 'pipeline' ? '🔄 Pipeline' : '💼 Retainers'}
+                </button>
+              ))}
+            </nav>
+            <div className="border-t border-gray-800 mt-4 pt-4 flex flex-col gap-1">
+              <button onClick={() => { const b = new Blob([exportData()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); setMobileMenuOpen(false); }}
+                className="px-4 py-3 rounded-lg text-left text-base text-gray-300 hover:bg-gray-800 min-h-[44px]">📤 Export</button>
+              <button onClick={() => { fileRef.current?.click(); setMobileMenuOpen(false); }}
+                className="px-4 py-3 rounded-lg text-left text-base text-gray-300 hover:bg-gray-800 min-h-[44px]">📥 Import</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <main className="flex-1 overflow-hidden">
         {tab === 'dashboard' && <Dashboard deals={deals} retainers={retainers} mrr={mrr} totalPipeline={totalPipeline} onSelect={d => { setSelectedDeal(d); }} />}
         {tab === 'pipeline' && (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex gap-3 p-4 overflow-x-auto h-full">
-              {STAGES.map(stage => {
-                const stageDeals = deals.filter(d => d.stage === stage);
-                const stageTotal = stageDeals.reduce((s, d) => s + d.estimatedValue, 0);
-                return (
-                  <Droppable droppableId={stage} key={stage}>
-                    {(provided, snapshot) => (
-                      <div ref={provided.innerRef} {...provided.droppableProps}
-                        className={`flex flex-col min-w-[260px] w-[260px] rounded-xl ${snapshot.isDraggingOver ? 'bg-gray-800/80' : 'bg-gray-900/50'} transition`}>
-                        <div className="p-3 border-b border-gray-800">
-                          <div className="flex justify-between items-center">
-                            <h3 className="text-sm font-semibold text-gray-300">{stage}</h3>
-                            <span className="text-xs bg-gray-800 px-2 py-0.5 rounded-full text-gray-400">{stageDeals.length}</span>
+          <>
+            {/* Desktop: Kanban */}
+            <div className="hidden sm:block h-full">
+              <DragDropContext onDragEnd={onDragEnd}>
+                <div className="flex gap-3 p-4 overflow-x-auto h-full">
+                  {STAGES.map(stage => {
+                    const stageDeals = deals.filter(d => d.stage === stage);
+                    const stageTotal = stageDeals.reduce((s, d) => s + d.estimatedValue, 0);
+                    return (
+                      <Droppable droppableId={stage} key={stage}>
+                        {(provided, snapshot) => (
+                          <div ref={provided.innerRef} {...provided.droppableProps}
+                            className={`flex flex-col min-w-[260px] w-[260px] rounded-xl ${snapshot.isDraggingOver ? 'bg-gray-800/80' : 'bg-gray-900/50'} transition`}>
+                            <div className="p-3 border-b border-gray-800">
+                              <div className="flex justify-between items-center">
+                                <h3 className="text-sm font-semibold text-gray-300">{stage}</h3>
+                                <span className="text-xs bg-gray-800 px-2 py-0.5 rounded-full text-gray-400">{stageDeals.length}</span>
+                              </div>
+                              <div className="text-xs text-gray-500 mt-1">${stageTotal.toLocaleString()}</div>
+                            </div>
+                            <div className="flex-1 overflow-y-auto p-2 space-y-2">
+                              {stageDeals.map((deal, i) => (
+                                <Draggable key={deal.id} draggableId={deal.id} index={i}>
+                                  {(prov, snap) => (
+                                    <div ref={prov.innerRef} {...prov.draggableProps} {...prov.dragHandleProps}
+                                      onClick={() => setSelectedDeal(deal)}
+                                      className={`p-3 rounded-lg bg-gray-800 border border-gray-700 cursor-pointer hover:border-blue-500/50 transition ${snap.isDragging ? 'shadow-xl shadow-blue-500/10' : ''}`}>
+                                      <div className="font-medium text-sm">{deal.businessName}</div>
+                                      {deal.contactPerson && <div className="text-xs text-gray-400 mt-0.5">{deal.contactPerson}</div>}
+                                      <div className="flex gap-2 mt-2 text-xs text-gray-500">
+                                        {deal.phone && <span>📞 {deal.phone}</span>}
+                                      </div>
+                                      {deal.email && <div className="text-xs text-gray-500 mt-0.5">✉️ {deal.email}</div>}
+                                      <div className="flex justify-between items-center mt-2">
+                                        <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
+                                        {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
+                                      </div>
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500 mt-1">${stageTotal.toLocaleString()}</div>
-                        </div>
-                        <div className="flex-1 overflow-y-auto p-2 space-y-2">
-                          {stageDeals.map((deal, i) => (
-                            <Draggable key={deal.id} draggableId={deal.id} index={i}>
-                              {(prov, snap) => (
-                                <div ref={prov.innerRef} {...prov.draggableProps} {...prov.dragHandleProps}
-                                  onClick={() => setSelectedDeal(deal)}
-                                  className={`p-3 rounded-lg bg-gray-800 border border-gray-700 cursor-pointer hover:border-blue-500/50 transition ${snap.isDragging ? 'shadow-xl shadow-blue-500/10' : ''}`}>
-                                  <div className="font-medium text-sm">{deal.businessName}</div>
-                                  {deal.contactPerson && <div className="text-xs text-gray-400 mt-0.5">{deal.contactPerson}</div>}
-                                  <div className="flex gap-2 mt-2 text-xs text-gray-500">
-                                    {deal.phone && <span>📞 {deal.phone}</span>}
-                                  </div>
-                                  {deal.email && <div className="text-xs text-gray-500 mt-0.5">✉️ {deal.email}</div>}
-                                  <div className="flex justify-between items-center mt-2">
-                                    <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
-                                    {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
-                                  </div>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      </div>
-                    )}
-                  </Droppable>
-                );
-              })}
+                        )}
+                      </Droppable>
+                    );
+                  })}
+                </div>
+              </DragDropContext>
             </div>
-          </DragDropContext>
+
+            {/* Mobile: Vertical list grouped by stage */}
+            <div className="sm:hidden h-full overflow-y-auto p-3 space-y-2">
+              <MobilePipelineView deals={deals} onSelect={d => setSelectedDeal(d)} onMove={handleMoveDeal} />
+            </div>
+          </>
         )}
         {tab === 'retainers' && <RetainersView retainers={retainers} update={updateRetainers} showAdd={showRetainerAdd} setShowAdd={setShowRetainerAdd} />}
       </main>
@@ -121,8 +178,76 @@ export default function Home() {
       {showQuickAdd && <QuickAddModal onClose={() => setShowQuickAdd(false)} onAdd={deal => updateDeals(prev => [...prev, deal])} />}
       {selectedDeal && <DealDetail deal={selectedDeal} onClose={() => setSelectedDeal(null)}
         onUpdate={updated => { updateDeals(prev => prev.map(d => d.id === updated.id ? updated : d)); setSelectedDeal(updated); }}
-        onDelete={id => { updateDeals(prev => prev.filter(d => d.id !== id)); setSelectedDeal(null); }} />}
+        onDelete={id => { updateDeals(prev => prev.filter(d => d.id !== id)); setSelectedDeal(null); }}
+        onMove={handleMoveDeal} />}
     </div>
+  );
+}
+
+/* ====== MOBILE PIPELINE VIEW ====== */
+function MobilePipelineView({ deals, onSelect, onMove }: { deals: Deal[]; onSelect: (d: Deal) => void; onMove: (id: string, stage: Stage) => void }) {
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+
+  return (
+    <>
+      {STAGES.map(stage => {
+        const stageDeals = deals.filter(d => d.stage === stage);
+        const stageTotal = stageDeals.reduce((s, d) => s + d.estimatedValue, 0);
+        const isCollapsed = collapsed[stage] ?? false;
+
+        return (
+          <div key={stage} className="rounded-xl bg-gray-900/50 overflow-hidden">
+            <button
+              onClick={() => setCollapsed(prev => ({ ...prev, [stage]: !isCollapsed }))}
+              className="w-full flex items-center justify-between p-4 min-h-[52px] active:bg-gray-800/50 transition"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-sm transform transition-transform" style={{ display: 'inline-block', transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)' }}>▼</span>
+                <h3 className="text-sm font-semibold text-gray-300">{stage}</h3>
+                <span className="text-xs bg-gray-800 px-2 py-0.5 rounded-full text-gray-400">{stageDeals.length}</span>
+              </div>
+              <span className="text-xs text-gray-500">${stageTotal.toLocaleString()}</span>
+            </button>
+
+            {!isCollapsed && stageDeals.length > 0 && (
+              <div className="px-3 pb-3 space-y-2">
+                {stageDeals.map(deal => (
+                  <div key={deal.id}
+                    onClick={() => onSelect(deal)}
+                    className="p-4 rounded-lg bg-gray-800 border border-gray-700 active:border-blue-500/50 transition cursor-pointer"
+                  >
+                    <div className="font-medium text-sm">{deal.businessName}</div>
+                    {deal.contactPerson && <div className="text-xs text-gray-400 mt-0.5">{deal.contactPerson}</div>}
+                    <div className="flex flex-wrap gap-3 mt-2 text-xs">
+                      {deal.phone && (
+                        <a href={`tel:${deal.phone}`} onClick={e => e.stopPropagation()} className="text-blue-400 hover:text-blue-300 min-h-[44px] flex items-center">📞 {deal.phone}</a>
+                      )}
+                      {deal.email && (
+                        <a href={`mailto:${deal.email}`} onClick={e => e.stopPropagation()} className="text-blue-400 hover:text-blue-300 min-h-[44px] flex items-center">✉️ {deal.email}</a>
+                      )}
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
+                      {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
+                    </div>
+                    {/* Mobile move stage */}
+                    <div className="mt-3 pt-2 border-t border-gray-700" onClick={e => e.stopPropagation()}>
+                      <select
+                        value={deal.stage}
+                        onChange={e => onMove(deal.id, e.target.value as Stage)}
+                        className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-xs text-gray-200 min-h-[44px]"
+                      >
+                        {STAGES.map(s => <option key={s} value={s}>Move to: {s}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -137,7 +262,6 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
 
   return (
     <div className="p-4 md:p-6 overflow-y-auto h-full space-y-6">
-      {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <KPI label="Pipeline Value" value={`$${totalPipeline.toLocaleString()}`} />
         <KPI label="MRR" value={`$${mrr.toLocaleString()}`} />
@@ -145,7 +269,6 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
         <KPI label="Follow Up Needed" value={followUps.length.toString()} accent />
       </div>
 
-      {/* Deals by Stage */}
       <div className="bg-gray-900 rounded-xl p-4">
         <h3 className="text-sm font-semibold text-gray-300 mb-3">Deals by Stage</h3>
         <div className="space-y-2">
@@ -165,13 +288,12 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
       </div>
 
       <div className="grid md:grid-cols-2 gap-4">
-        {/* Follow Ups */}
         <div className="bg-gray-900 rounded-xl p-4">
           <h3 className="text-sm font-semibold text-gray-300 mb-3">⚠️ Needs Follow Up (3+ days)</h3>
           {followUps.length === 0 ? <p className="text-xs text-gray-500">All caught up!</p> : (
             <div className="space-y-2">
               {followUps.map(d => (
-                <div key={d.id} onClick={() => onSelect(d)} className="flex justify-between items-center p-2 rounded-lg bg-gray-800 cursor-pointer hover:bg-gray-700 transition">
+                <div key={d.id} onClick={() => onSelect(d)} className="flex justify-between items-center p-3 sm:p-2 rounded-lg bg-gray-800 cursor-pointer hover:bg-gray-700 active:bg-gray-700 transition min-h-[44px]">
                   <div>
                     <div className="text-sm font-medium">{d.businessName}</div>
                     <div className="text-xs text-gray-500">Last: {new Date(d.lastInteraction).toLocaleDateString()}</div>
@@ -183,7 +305,6 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
           )}
         </div>
 
-        {/* Recent Activity */}
         <div className="bg-gray-900 rounded-xl p-4">
           <h3 className="text-sm font-semibold text-gray-300 mb-3">Recent Activity</h3>
           {recentActivities.length === 0 ? <p className="text-xs text-gray-500">No activity yet.</p> : (
@@ -212,7 +333,7 @@ function KPI({ label, value, accent }: { label: string; value: string; accent?: 
 }
 
 /* ====== DEAL DETAIL ====== */
-function DealDetail({ deal, onClose, onUpdate, onDelete }: { deal: Deal; onClose: () => void; onUpdate: (d: Deal) => void; onDelete: (id: string) => void }) {
+function DealDetail({ deal, onClose, onUpdate, onDelete, onMove }: { deal: Deal; onClose: () => void; onUpdate: (d: Deal) => void; onDelete: (id: string) => void; onMove: (id: string, stage: Stage) => void }) {
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState(deal);
   const [actText, setActText] = useState('');
@@ -224,42 +345,67 @@ function DealDetail({ deal, onClose, onUpdate, onDelete }: { deal: Deal; onClose
   }
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 sm:p-4" onClick={onClose}>
       <div className="bg-gray-900 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="p-5 border-b border-gray-800 flex justify-between items-start">
           <div>
             <h2 className="text-lg font-bold">{deal.businessName}</h2>
             <span className="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded mt-1 inline-block">{deal.stage}</span>
           </div>
-          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl">×</button>
+          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl min-h-[44px] min-w-[44px] flex items-center justify-center">×</button>
         </div>
 
         {!editing ? (
           <div className="p-5 space-y-4">
             <div className="grid grid-cols-2 gap-3 text-sm">
               <Info label="Contact" value={deal.contactPerson || '—'} />
-              <Info label="Phone" value={deal.phone || '—'} />
-              <Info label="Email" value={deal.email || '—'} />
+              <div>
+                <div className="text-xs text-gray-500">Phone</div>
+                {deal.phone ? <a href={`tel:${deal.phone}`} className="text-blue-400 hover:text-blue-300">{deal.phone}</a> : <div className="text-gray-200">—</div>}
+              </div>
+              <div>
+                <div className="text-xs text-gray-500">Email</div>
+                {deal.email ? <a href={`mailto:${deal.email}`} className="text-blue-400 hover:text-blue-300 break-all">{deal.email}</a> : <div className="text-gray-200">—</div>}
+              </div>
               <Info label="Service" value={deal.service || '—'} />
               <Info label="Deal Value" value={`$${deal.estimatedValue.toLocaleString()}`} />
               <Info label="Last Contact" value={new Date(deal.lastInteraction).toLocaleDateString()} />
             </div>
             {deal.notes && <div className="text-sm text-gray-400 bg-gray-800 p-3 rounded-lg">{deal.notes}</div>}
 
-            <div className="flex gap-2">
-              <button onClick={() => { setForm(deal); setEditing(true); }} className="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg">Edit</button>
-              <button onClick={() => { if (confirm('Delete this deal?')) onDelete(deal.id); }} className="text-xs bg-red-900/30 text-red-400 hover:bg-red-900/50 px-3 py-1.5 rounded-lg">Delete</button>
+            {/* Quick action buttons - mobile friendly */}
+            <div className="grid grid-cols-2 sm:flex gap-2">
+              {deal.phone && (
+                <a href={`tel:${deal.phone}`} className="flex items-center justify-center gap-1.5 bg-green-900/30 text-green-400 hover:bg-green-900/50 px-3 py-3 sm:py-1.5 rounded-lg text-sm min-h-[44px]">📞 Call</a>
+              )}
+              {deal.email && (
+                <a href={`mailto:${deal.email}`} className="flex items-center justify-center gap-1.5 bg-blue-900/30 text-blue-400 hover:bg-blue-900/50 px-3 py-3 sm:py-1.5 rounded-lg text-sm min-h-[44px]">✉️ Email</a>
+              )}
+              <button onClick={() => { setForm(deal); setEditing(true); }} className="flex items-center justify-center gap-1.5 bg-gray-800 hover:bg-gray-700 px-3 py-3 sm:py-1.5 rounded-lg text-sm min-h-[44px]">✏️ Edit</button>
+              <button onClick={() => { if (confirm('Delete this deal?')) onDelete(deal.id); }} className="flex items-center justify-center gap-1.5 bg-red-900/30 text-red-400 hover:bg-red-900/50 px-3 py-3 sm:py-1.5 rounded-lg text-sm min-h-[44px]">🗑️ Delete</button>
+            </div>
+
+            {/* Move Stage */}
+            <div className="border-t border-gray-800 pt-4">
+              <h4 className="text-sm font-semibold text-gray-300 mb-2">Move Stage</h4>
+              <select
+                value={deal.stage}
+                onChange={e => onMove(deal.id, e.target.value as Stage)}
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm min-h-[44px]"
+              >
+                {STAGES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
             </div>
 
             {/* Log Activity */}
             <div className="border-t border-gray-800 pt-4">
               <h4 className="text-sm font-semibold text-gray-300 mb-2">Log Activity</h4>
               <input value={actText} onChange={e => setActText(e.target.value)} placeholder="What happened?"
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mb-2" />
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mb-2 min-h-[44px]" />
               <div className="flex gap-2">
-                <button onClick={() => logActivity('note')} className="text-xs bg-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-600">📝 Note</button>
-                <button onClick={() => logActivity('call')} className="text-xs bg-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-600">📞 Call</button>
-                <button onClick={() => logActivity('email')} className="text-xs bg-gray-700 px-3 py-1.5 rounded-lg hover:bg-gray-600">✉️ Email</button>
+                <button onClick={() => logActivity('note')} className="text-xs bg-gray-700 px-3 py-2.5 sm:py-1.5 rounded-lg hover:bg-gray-600 min-h-[44px] flex-1 sm:flex-none">📝 Note</button>
+                <button onClick={() => logActivity('call')} className="text-xs bg-gray-700 px-3 py-2.5 sm:py-1.5 rounded-lg hover:bg-gray-600 min-h-[44px] flex-1 sm:flex-none">📞 Call</button>
+                <button onClick={() => logActivity('email')} className="text-xs bg-gray-700 px-3 py-2.5 sm:py-1.5 rounded-lg hover:bg-gray-600 min-h-[44px] flex-1 sm:flex-none">✉️ Email</button>
               </div>
             </div>
 
@@ -302,14 +448,14 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
       <Input label="Email" value={form.email} onChange={f('email')} />
       <div>
         <label className="text-xs text-gray-500">Service</label>
-        <select value={form.service} onChange={f('service')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1">
+        <select value={form.service} onChange={f('service')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]">
           {['', 'Website', 'SEO', 'Ads', 'Website + SEO', 'Website + Ads', 'Full Package'].map(s => <option key={s} value={s}>{s || 'Select...'}</option>)}
         </select>
       </div>
       <Input label="Est. Value ($)" value={form.estimatedValue.toString()} onChange={f('estimatedValue')} type="number" />
       <div>
         <label className="text-xs text-gray-500">Stage</label>
-        <select value={form.stage} onChange={f('stage') as any} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1">
+        <select value={form.stage} onChange={f('stage') as any} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]">
           {STAGES.map(s => <option key={s} value={s}>{s}</option>)}
         </select>
       </div>
@@ -318,8 +464,8 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
         <textarea value={form.notes} onChange={f('notes')} rows={3} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1" />
       </div>
       <div className="flex gap-2 pt-2">
-        <button onClick={onSave} className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm">Save</button>
-        <button onClick={onCancel} className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm">Cancel</button>
+        <button onClick={onSave} className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm min-h-[44px] flex-1 sm:flex-none">Save</button>
+        <button onClick={onCancel} className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm min-h-[44px] flex-1 sm:flex-none">Cancel</button>
       </div>
     </div>
   );
@@ -329,7 +475,7 @@ function Input({ label, value, onChange, type = 'text' }: { label: string; value
   return (
     <div>
       <label className="text-xs text-gray-500">{label}</label>
-      <input type={type} value={value} onChange={onChange} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1" />
+      <input type={type} value={value} onChange={onChange} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]" />
     </div>
   );
 }
@@ -369,8 +515,8 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
           </div>
         </div>
         <div className="flex gap-2 mt-4">
-          <button onClick={submit} className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm flex-1">Add</button>
-          <button onClick={onClose} className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm">Cancel</button>
+          <button onClick={submit} className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm flex-1 min-h-[44px]">Add</button>
+          <button onClick={onClose} className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm min-h-[44px]">Cancel</button>
         </div>
       </div>
     </div>
@@ -397,41 +543,70 @@ function RetainersView({ retainers, update, showAdd, setShowAdd }: { retainers: 
           <p>No retainers yet. Add your first client!</p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-gray-500 border-b border-gray-800">
-                <th className="pb-2 font-medium">Client</th>
-                <th className="pb-2 font-medium">Service</th>
-                <th className="pb-2 font-medium">Monthly</th>
-                <th className="pb-2 font-medium">Start Date</th>
-                <th className="pb-2 font-medium">Next Billing</th>
-                <th className="pb-2 font-medium">Status</th>
-                <th className="pb-2 font-medium"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {retainers.map(r => (
-                <tr key={r.id} className="border-b border-gray-800/50 hover:bg-gray-800/30">
-                  <td className="py-3 font-medium">{r.clientName}</td>
-                  <td className="py-3 text-gray-400">{r.serviceType}</td>
-                  <td className="py-3">${r.monthlyAmount.toLocaleString()}</td>
-                  <td className="py-3 text-gray-400">{r.startDate}</td>
-                  <td className="py-3 text-gray-400">{r.nextBillingDate}</td>
-                  <td className="py-3">
-                    <select value={r.paymentStatus} onChange={e => update(prev => prev.map(x => x.id === r.id ? { ...x, paymentStatus: e.target.value as any } : x))}
-                      className={`text-xs px-2 py-1 rounded-full border-0 ${statusColor[r.paymentStatus]} bg-gray-800`}>
-                      {['Paid', 'Pending', 'Overdue'].map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  </td>
-                  <td className="py-3">
-                    <button onClick={() => update(prev => prev.filter(x => x.id !== r.id))} className="text-gray-600 hover:text-red-400 text-xs">✕</button>
-                  </td>
+        <>
+          {/* Desktop table */}
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-gray-500 border-b border-gray-800">
+                  <th className="pb-2 font-medium">Client</th>
+                  <th className="pb-2 font-medium">Service</th>
+                  <th className="pb-2 font-medium">Monthly</th>
+                  <th className="pb-2 font-medium">Start Date</th>
+                  <th className="pb-2 font-medium">Next Billing</th>
+                  <th className="pb-2 font-medium">Status</th>
+                  <th className="pb-2 font-medium"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {retainers.map(r => (
+                  <tr key={r.id} className="border-b border-gray-800/50 hover:bg-gray-800/30">
+                    <td className="py-3 font-medium">{r.clientName}</td>
+                    <td className="py-3 text-gray-400">{r.serviceType}</td>
+                    <td className="py-3">${r.monthlyAmount.toLocaleString()}</td>
+                    <td className="py-3 text-gray-400">{r.startDate}</td>
+                    <td className="py-3 text-gray-400">{r.nextBillingDate}</td>
+                    <td className="py-3">
+                      <select value={r.paymentStatus} onChange={e => update(prev => prev.map(x => x.id === r.id ? { ...x, paymentStatus: e.target.value as any } : x))}
+                        className={`text-xs px-2 py-1 rounded-full border-0 ${statusColor[r.paymentStatus]} bg-gray-800`}>
+                        {['Paid', 'Pending', 'Overdue'].map(s => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                    </td>
+                    <td className="py-3">
+                      <button onClick={() => update(prev => prev.filter(x => x.id !== r.id))} className="text-gray-600 hover:text-red-400 text-xs">✕</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile card layout */}
+          <div className="sm:hidden space-y-3">
+            {retainers.map(r => (
+              <div key={r.id} className="bg-gray-800 rounded-xl p-4 border border-gray-700">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <div className="font-medium">{r.clientName}</div>
+                    <div className="text-xs text-gray-400 mt-0.5">{r.serviceType}</div>
+                  </div>
+                  <button onClick={() => update(prev => prev.filter(x => x.id !== r.id))} className="text-gray-600 hover:text-red-400 min-h-[44px] min-w-[44px] flex items-center justify-center">✕</button>
+                </div>
+                <div className="flex justify-between items-center mt-3">
+                  <span className="text-blue-400 font-semibold">${r.monthlyAmount.toLocaleString()}/mo</span>
+                  <select value={r.paymentStatus} onChange={e => update(prev => prev.map(x => x.id === r.id ? { ...x, paymentStatus: e.target.value as any } : x))}
+                    className={`text-xs px-3 py-2 rounded-full border-0 min-h-[44px] ${statusColor[r.paymentStatus]} bg-gray-700`}>
+                    {['Paid', 'Pending', 'Overdue'].map(s => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-2">
+                  <span>Start: {r.startDate}</span>
+                  <span>Next: {r.nextBillingDate}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {showAdd && <RetainerAddModal onClose={() => setShowAdd(false)} onAdd={r => update(prev => [...prev, r])} />}
@@ -464,8 +639,8 @@ function RetainerAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (r: 
           <Input label="Next Billing Date" value={next} onChange={e => setNext(e.target.value)} type="date" />
         </div>
         <div className="flex gap-2 mt-4">
-          <button onClick={submit} className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm flex-1">Add</button>
-          <button onClick={onClose} className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm">Cancel</button>
+          <button onClick={submit} className="bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-lg text-sm flex-1 min-h-[44px]">Add</button>
+          <button onClick={onClose} className="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm min-h-[44px]">Cancel</button>
         </div>
       </div>
     </div>
