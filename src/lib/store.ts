@@ -3,43 +3,120 @@ import { v4 as uuid } from 'uuid';
 
 const DEALS_KEY = 'dw_crm_deals';
 const RETAINERS_KEY = 'dw_crm_retainers';
+const SYNC_TIMESTAMP_KEY = 'dw_crm_last_sync';
 
-const DEFAULT_DEALS: Deal[] = [
-  {
-    id: uuid(), businessName: 'M-TECH Automotive', contactPerson: '', phone: '(704) 882-8996',
-    email: 'MTECH001@Hotmail.com', service: 'Website', estimatedValue: 7300, stage: 'Prospect',
-    lastInteraction: new Date().toISOString(), notes: '', activities: [], createdAt: new Date().toISOString(),
-  },
-  {
-    id: uuid(), businessName: 'Love Plumbing & AC', contactPerson: '', phone: '(704) 289-4528',
-    email: 'info@plumbingacmonroe.com', service: 'Website + SEO', estimatedValue: 14500, stage: 'Prospect',
-    lastInteraction: new Date().toISOString(), notes: '', activities: [], createdAt: new Date().toISOString(),
-  },
-  {
-    id: uuid(), businessName: 'Indian Trail Family Dentistry', contactPerson: '', phone: '(704) 821-3019',
-    email: '', service: 'Full Package', estimatedValue: 16500, stage: 'Prospect',
-    lastInteraction: new Date().toISOString(), notes: '', activities: [], createdAt: new Date().toISOString(),
-  },
-  {
-    id: uuid(), businessName: "Shaunn's Dental Lab", contactPerson: '', phone: '',
-    email: '', service: 'Website', estimatedValue: 9300, stage: 'Prospect',
-    lastInteraction: new Date().toISOString(), notes: '', activities: [], createdAt: new Date().toISOString(),
-  },
-  {
-    id: uuid(), businessName: 'East Carolina Automotive', contactPerson: '', phone: '',
-    email: '', service: 'Website', estimatedValue: 7300, stage: 'Prospect',
-    lastInteraction: new Date().toISOString(), notes: '', activities: [], createdAt: new Date().toISOString(),
-  },
-];
+interface ProspectsData {
+  deals: Deal[];
+  retainers: Retainer[];
+  lastUpdated: string;
+}
 
+let cachedProspectsData: ProspectsData | null = null;
+
+/**
+ * Fetch prospects data from JSON file
+ */
+async function fetchProspectsData(): Promise<ProspectsData> {
+  if (cachedProspectsData) return cachedProspectsData;
+  
+  try {
+    const response = await fetch('/data/prospects.json');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch prospects: ${response.statusText}`);
+    }
+    cachedProspectsData = await response.json();
+    return cachedProspectsData!;
+  } catch (error) {
+    console.warn('Failed to load prospects.json, using empty data:', error);
+    return { deals: [], retainers: [], lastUpdated: new Date().toISOString() };
+  }
+}
+
+/**
+ * Merge JSON deals with localStorage deals
+ * Strategy: localStorage wins for existing deals (by ID), new deals from JSON are added
+ */
+function mergeDeals(jsonDeals: Deal[], localDeals: Deal[]): Deal[] {
+  const localDealsMap = new Map(localDeals.map(d => [d.id, d]));
+  const mergedDeals: Deal[] = [];
+  
+  // Start with all local deals (these have user edits)
+  for (const deal of localDeals) {
+    mergedDeals.push(deal);
+  }
+  
+  // Add new deals from JSON that aren't in localStorage
+  for (const jsonDeal of jsonDeals) {
+    if (!localDealsMap.has(jsonDeal.id)) {
+      mergedDeals.push(jsonDeal);
+    }
+  }
+  
+  return mergedDeals;
+}
+
+/**
+ * Get deals with async JSON fetch on first load
+ */
+export async function getDealsAsync(): Promise<Deal[]> {
+  if (typeof window === 'undefined') return [];
+  
+  const localRaw = localStorage.getItem(DEALS_KEY);
+  const localDeals = localRaw ? JSON.parse(localRaw) : [];
+  
+  // Fetch JSON data
+  const prospectsData = await fetchProspectsData();
+  
+  // Merge JSON deals with local deals
+  const mergedDeals = mergeDeals(prospectsData.deals, localDeals);
+  
+  // Save merged result to localStorage
+  localStorage.setItem(DEALS_KEY, JSON.stringify(mergedDeals));
+  
+  return mergedDeals;
+}
+
+/**
+ * Synchronous get deals (for compatibility with existing code)
+ * Returns localStorage data immediately, may be stale
+ */
 export function getDeals(): Deal[] {
   if (typeof window === 'undefined') return [];
   const raw = localStorage.getItem(DEALS_KEY);
-  if (!raw) {
-    localStorage.setItem(DEALS_KEY, JSON.stringify(DEFAULT_DEALS));
-    return DEFAULT_DEALS;
-  }
+  if (!raw) return [];
   return JSON.parse(raw);
+}
+
+/**
+ * Sync button: Re-fetch JSON and merge new prospects
+ */
+export async function syncProspects(): Promise<{ added: number; total: number }> {
+  if (typeof window === 'undefined') return { added: 0, total: 0 };
+  
+  // Clear cache to force fresh fetch
+  cachedProspectsData = null;
+  
+  const localRaw = localStorage.getItem(DEALS_KEY);
+  const localDeals = localRaw ? JSON.parse(localRaw) : [];
+  const localDealsMap = new Map(localDeals.map((d: Deal) => [d.id, d]));
+  
+  // Fetch fresh JSON data
+  const prospectsData = await fetchProspectsData();
+  
+  // Count how many new deals we're adding
+  let addedCount = 0;
+  for (const jsonDeal of prospectsData.deals) {
+    if (!localDealsMap.has(jsonDeal.id)) {
+      addedCount++;
+    }
+  }
+  
+  // Merge and save
+  const mergedDeals = mergeDeals(prospectsData.deals, localDeals);
+  localStorage.setItem(DEALS_KEY, JSON.stringify(mergedDeals));
+  localStorage.setItem(SYNC_TIMESTAMP_KEY, new Date().toISOString());
+  
+  return { added: addedCount, total: mergedDeals.length };
 }
 
 export function saveDeals(deals: Deal[]) {

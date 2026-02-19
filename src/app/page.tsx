@@ -9,7 +9,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 type Tab = 'dashboard' | 'pipeline' | 'retainers';
 
 export default function Home() {
-  const { deals, update: updateDeals, loaded } = useDeals();
+  const { deals, update: updateDeals, loaded, sync, syncing } = useDeals();
   const { retainers, update: updateRetainers } = useRetainers();
   const [tab, setTab] = useState<Tab>('pipeline');
   const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
@@ -61,8 +61,18 @@ export default function Home() {
           ))}
         </nav>
 
-        {/* Desktop export/import */}
+        {/* Desktop export/import/sync */}
         <div className="hidden sm:flex gap-2">
+          <button
+            onClick={async () => {
+              const result = await sync();
+              alert(`Sync complete! Added ${result.added} new prospects. Total: ${result.total}`);
+            }}
+            disabled={syncing}
+            className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded disabled:opacity-50"
+          >
+            {syncing ? '⟳ Syncing...' : '🔄 Sync'}
+          </button>
           <button onClick={() => { const b = new Blob([exportData()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); }}
             className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded">Export</button>
           <button onClick={() => fileRef.current?.click()} className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded">Import</button>
@@ -96,6 +106,17 @@ export default function Home() {
               ))}
             </nav>
             <div className="border-t border-gray-800 mt-4 pt-4 flex flex-col gap-1">
+              <button
+                onClick={async () => {
+                  const result = await sync();
+                  alert(`Sync complete! Added ${result.added} new prospects. Total: ${result.total}`);
+                  setMobileMenuOpen(false);
+                }}
+                disabled={syncing}
+                className="px-4 py-3 rounded-lg text-left text-base text-gray-300 hover:bg-gray-800 min-h-[44px] disabled:opacity-50"
+              >
+                {syncing ? '⟳ Syncing...' : '🔄 Sync Prospects'}
+              </button>
               <button onClick={() => { const b = new Blob([exportData()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); setMobileMenuOpen(false); }}
                 className="px-4 py-3 rounded-lg text-left text-base text-gray-300 hover:bg-gray-800 min-h-[44px]">📤 Export</button>
               <button onClick={() => { fileRef.current?.click(); setMobileMenuOpen(false); }}
