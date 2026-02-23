@@ -290,41 +290,57 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
 
   const currentYear = new Date().getFullYear();
   const wonDeals = deals.filter(d => d.stage === 'Won');
-  const totalEarned = wonDeals.reduce((s, d) => s + d.estimatedValue, 0);
-  const totalCollected = wonDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
-  const totalOwed = totalEarned - totalCollected;
+  // Projects = one-time deals (not retainers)
+  const projectDeals = wonDeals.filter(d => !d.isRetainer);
+  const projectWon = projectDeals.reduce((s, d) => s + d.estimatedValue, 0);
+  const projectCollected = projectDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
+  const projectOwed = projectWon - projectCollected;
+  // Recurring = retainer deals
+  const retainerDeals = wonDeals.filter(d => d.isRetainer);
   const yearlyMRR = mrr * 12;
-  const owedDeals = wonDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
+  // Only projects show in "Who Owes Us"
+  const owedDeals = projectDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
 
   return (
     <div className="p-4 md:p-6 overflow-y-auto h-full space-y-6">
-      {/* Revenue Banner */}
+      {/* Project Revenue */}
       <div className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 border border-green-500/20 rounded-xl p-4 md:p-6">
-        <h3 className="text-sm font-semibold text-green-400 mb-3">💰 Revenue Tracker — {currentYear}</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <h3 className="text-sm font-semibold text-green-400 mb-3">💰 Project Revenue — {currentYear}</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-white">${totalEarned.toLocaleString()}</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">${projectWon.toLocaleString()}</div>
             <div className="text-xs text-green-400/70">Total Won</div>
           </div>
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-green-400">${totalCollected.toLocaleString()}</div>
+            <div className="text-2xl md:text-3xl font-bold text-green-400">${projectCollected.toLocaleString()}</div>
             <div className="text-xs text-green-400/70">Collected</div>
           </div>
           <div>
-            <div className={`text-2xl md:text-3xl font-bold ${totalOwed > 0 ? 'text-yellow-400' : 'text-white'}`}>${totalOwed.toLocaleString()}</div>
+            <div className={`text-2xl md:text-3xl font-bold ${projectOwed > 0 ? 'text-yellow-400' : 'text-white'}`}>${projectOwed.toLocaleString()}</div>
             <div className="text-xs text-green-400/70">Outstanding</div>
           </div>
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-white">${mrr.toLocaleString()}<span className="text-sm text-gray-400">/mo</span></div>
-            <div className="text-xs text-green-400/70">Monthly Recurring</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">{projectDeals.length}</div>
+            <div className="text-xs text-green-400/70">Deals Won</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recurring Revenue */}
+      <div className="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 border border-blue-500/20 rounded-xl p-4 md:p-6">
+        <h3 className="text-sm font-semibold text-blue-400 mb-3">🔄 Recurring Revenue</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div>
+            <div className="text-2xl md:text-3xl font-bold text-blue-400">${mrr.toLocaleString()}<span className="text-sm text-gray-400">/mo</span></div>
+            <div className="text-xs text-blue-400/70">MRR</div>
           </div>
           <div>
             <div className="text-2xl md:text-3xl font-bold text-white">${yearlyMRR.toLocaleString()}<span className="text-sm text-gray-400">/yr</span></div>
-            <div className="text-xs text-green-400/70">Projected Annual</div>
+            <div className="text-xs text-blue-400/70">Projected Annual</div>
           </div>
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-white">{wonDeals.length}</div>
-            <div className="text-xs text-green-400/70">Deals Won</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">{retainerDeals.length}</div>
+            <div className="text-xs text-blue-400/70">Active Retainers</div>
           </div>
         </div>
       </div>
