@@ -290,9 +290,9 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
 
   const currentYear = new Date().getFullYear();
   const wonDeals = deals.filter(d => d.stage === 'Won');
-  const totalEarned = wonDeals.reduce((s, d) => s + d.estimatedValue, 0);
-  const yearlyMRR = mrr * 12;
   const projectDeals = wonDeals.filter(d => !d.isRetainer);
+  const totalEarned = projectDeals.reduce((s, d) => s + d.estimatedValue, 0);
+  const yearlyMRR = mrr * 12;
   const totalProjectValue = projectDeals.reduce((s, d) => s + d.estimatedValue, 0);
   const totalCollected = projectDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
   const totalOwed = totalProjectValue - totalCollected;
@@ -325,7 +325,7 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
             <div className="text-xs text-green-400/70">Projected Annual</div>
           </div>
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-white">{wonDeals.length}</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">{projectDeals.length}</div>
             <div className="text-xs text-green-400/70">Deals Won</div>
           </div>
         </div>
