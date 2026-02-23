@@ -1,5 +1,7 @@
 export type Stage = 'Prospect' | 'Contacted' | 'Replied' | 'Meeting' | 'Proposal Sent' | 'Won' | 'Lost';
-export type ServiceType = 'Website' | 'SEO' | 'Ads' | 'Website + SEO' | 'Website + Ads' | 'Full Package' | '';
+export type ServiceOption = 'Website' | 'SEO' | 'Google Ads' | 'Facebook/IG Ads' | 'Hosting' | 'AI Automation' | 'Branding';
+export type ServiceType = string; // comma-joined ServiceOptions for backward compat
+export const SERVICE_OPTIONS: ServiceOption[] = ['Website', 'SEO', 'Google Ads', 'Facebook/IG Ads', 'Hosting', 'AI Automation', 'Branding'];
 export type RetainerType = 'Website Hosting' | 'SEO Monthly' | 'Ads Management' | 'Full Service' | 'Custom';
 export type PaymentStatus = 'Paid' | 'Pending' | 'Overdue';
 

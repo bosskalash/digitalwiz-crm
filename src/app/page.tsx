@@ -566,10 +566,25 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
       <Input label="Website" value={form.website || ''} onChange={f('website')} />
       <Input label="Google Business URL" value={form.gbpUrl || ''} onChange={f('gbpUrl')} />
       <div>
-        <label className="text-xs text-gray-500">Service</label>
-        <select value={form.service} onChange={f('service')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]">
-          {['', 'Website', 'SEO', 'Ads', 'Website + SEO', 'Website + Ads', 'Full Package'].map(s => <option key={s} value={s}>{s || 'Select...'}</option>)}
-        </select>
+        <label className="text-xs text-gray-500 block mb-1">Services</label>
+        <div className="grid grid-cols-2 gap-2">
+          {['Website', 'SEO', 'Google Ads', 'Facebook/IG Ads', 'Hosting', 'AI Automation', 'Branding'].map(svc => {
+            const selected = (form.service || '').split(', ').filter(Boolean);
+            const isChecked = selected.includes(svc);
+            return (
+              <label key={svc} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm cursor-pointer border transition-colors ${isChecked ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600'}`}>
+                <input type="checkbox" checked={isChecked} onChange={() => {
+                  const next = isChecked ? selected.filter(s => s !== svc) : [...selected, svc];
+                  setForm({ ...form, service: next.join(', ') as any });
+                }} className="sr-only" />
+                <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${isChecked ? 'bg-blue-600 border-blue-500' : 'border-gray-600'}`}>
+                  {isChecked && <span className="text-white text-xs">✓</span>}
+                </div>
+                {svc}
+              </label>
+            );
+          })}
+        </div>
       </div>
       <Input label="Est. Value ($)" value={form.estimatedValue.toString()} onChange={f('estimatedValue')} type="number" />
       <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />
@@ -620,11 +635,16 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
   const [gbpUrl, setGbpUrl] = useState('');
   const [notes, setNotes] = useState('');
   const [value, setValue] = useState('');
+  const [services, setServices] = useState<string[]>([]);
+
+  function toggleSvc(svc: string) {
+    setServices(prev => prev.includes(svc) ? prev.filter(s => s !== svc) : [...prev, svc]);
+  }
 
   function submit() {
     if (!name.trim()) return;
     const deal: Deal = {
-      id: uuid(), businessName: name.trim(), contactPerson: '', phone, email, website, gbpUrl, service: '',
+      id: uuid(), businessName: name.trim(), contactPerson: '', phone, email, website, gbpUrl, service: services.join(', ') as any,
       estimatedValue: Number(value) || 0, stage: 'Prospect', lastInteraction: new Date().toISOString(),
       notes, activities: [{ id: uuid(), type: 'created', description: 'Deal created', timestamp: new Date().toISOString() }],
       createdAt: new Date().toISOString(), amountPaid: 0, isRetainer: false,
@@ -643,6 +663,20 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
           <Input label="Email" value={email} onChange={e => setEmail(e.target.value)} />
           <Input label="Website" value={website} onChange={e => setWebsite(e.target.value)} />
           <Input label="Google Business URL" value={gbpUrl} onChange={e => setGbpUrl(e.target.value)} />
+          <div>
+            <label className="text-xs text-gray-500 block mb-1">Services</label>
+            <div className="grid grid-cols-2 gap-2">
+              {['Website', 'SEO', 'Google Ads', 'Facebook/IG Ads', 'Hosting', 'AI Automation', 'Branding'].map(svc => (
+                <label key={svc} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm cursor-pointer border transition-colors ${services.includes(svc) ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600'}`}>
+                  <input type="checkbox" checked={services.includes(svc)} onChange={() => toggleSvc(svc)} className="sr-only" />
+                  <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${services.includes(svc) ? 'bg-blue-600 border-blue-500' : 'border-gray-600'}`}>
+                    {services.includes(svc) && <span className="text-white text-xs">✓</span>}
+                  </div>
+                  {svc}
+                </label>
+              ))}
+            </div>
+          </div>
           <Input label="Est. Value ($)" value={value} onChange={e => setValue(e.target.value)} type="number" />
           <div>
             <label className="text-xs text-gray-500">Notes</label>
