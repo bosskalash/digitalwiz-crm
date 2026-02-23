@@ -1,6 +1,9 @@
 export type Stage = 'Prospect' | 'Contacted' | 'Replied' | 'Meeting' | 'Proposal Sent' | 'Won' | 'Lost';
 export type ServiceType = 'Website' | 'SEO' | 'Ads' | 'Website + SEO' | 'Website + Ads' | 'Full Package' | '';
+export type RetainerType = 'Website Hosting' | 'SEO Monthly' | 'Ads Management' | 'Full Service' | 'Custom';
 export type PaymentStatus = 'Paid' | 'Pending' | 'Overdue';
+
+export const RETAINER_TYPES: RetainerType[] = ['Website Hosting', 'SEO Monthly', 'Ads Management', 'Full Service', 'Custom'];
 
 export interface Activity {
   id: string;

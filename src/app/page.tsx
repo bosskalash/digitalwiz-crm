@@ -751,14 +751,16 @@ function RetainersView({ retainers, update, showAdd, setShowAdd }: { retainers: 
 
 function RetainerAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (r: Retainer) => void }) {
   const [name, setName] = useState('');
-  const [service, setService] = useState('');
+  const [service, setService] = useState('Website Hosting');
+  const [customService, setCustomService] = useState('');
   const [amount, setAmount] = useState('');
   const [start, setStart] = useState(new Date().toISOString().split('T')[0]);
   const [next, setNext] = useState('');
 
   function submit() {
     if (!name.trim()) return;
-    onAdd({ id: uuid(), clientName: name.trim(), serviceType: service, monthlyAmount: Number(amount) || 0, startDate: start, nextBillingDate: next || start, paymentStatus: 'Pending' });
+    const svcType = service === 'Custom' ? customService : service;
+    onAdd({ id: uuid(), clientName: name.trim(), serviceType: svcType, monthlyAmount: Number(amount) || 0, startDate: start, nextBillingDate: next || start, paymentStatus: 'Pending' });
     onClose();
   }
 
@@ -768,7 +770,17 @@ function RetainerAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (r: 
         <h2 className="text-lg font-bold mb-4">Add Retainer Client</h2>
         <div className="space-y-3">
           <Input label="Client Name *" value={name} onChange={e => setName(e.target.value)} />
-          <Input label="Service Type" value={service} onChange={e => setService(e.target.value)} />
+          <div>
+            <label className="text-xs text-gray-400 block mb-1">Service Type</label>
+            <select value={service} onChange={e => setService(e.target.value)} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white min-h-[44px]">
+              <option value="Website Hosting">Website Hosting</option>
+              <option value="SEO Monthly">SEO Monthly</option>
+              <option value="Ads Management">Ads Management</option>
+              <option value="Full Service">Full Service</option>
+              <option value="Custom">Custom</option>
+            </select>
+          </div>
+          {service === 'Custom' && <Input label="Custom Service" value={customService} onChange={e => setCustomService(e.target.value)} />}
           <Input label="Monthly Amount ($)" value={amount} onChange={e => setAmount(e.target.value)} type="number" />
           <Input label="Start Date" value={start} onChange={e => setStart(e.target.value)} type="date" />
           <Input label="Next Billing Date" value={next} onChange={e => setNext(e.target.value)} type="date" />
