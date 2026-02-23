@@ -1,300 +1,319 @@
-{
-  "deals": [
-    {
-      "id": "1",
-      "businessName": "M-TECH Automotive",
-      "contactPerson": "",
-      "phone": "(704) 882-8996",
-      "email": "MTECH001@Hotmail.com",
-      "service": "Website",
-      "estimatedValue": 7300,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "Mazda specialist. 4.9 stars, 132 reviews. HTTP site (no SSL), looks like 2005, no online booking. Great reputation but terrible website actively undermines trust.",
-      "activities": [
-        {
-          "id": "act-1",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "2",
-      "businessName": "Love Plumbing & Air Conditioning Co.",
-      "contactPerson": "",
-      "phone": "(704) 289-4528",
-      "email": "info@plumbingacmonroe.com",
-      "service": "Website + SEO",
-      "estimatedValue": 14500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "60+ years in business (since 1963). 4.1 stars, 92 reviews. Extremely thin website (~200 words), no service area pages, typo in title tag. Huge opportunity for local SEO.",
-      "activities": [
-        {
-          "id": "act-2",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "3",
-      "businessName": "Indian Trail Family Dentistry",
-      "contactPerson": "Dr. Jed Levitas",
-      "phone": "(704) 821-3019",
-      "email": "",
-      "service": "Full Package",
-      "estimatedValue": 16500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "Cookie-cutter dental template site (Officite). No personalization, no online booking, no hero images, generic stock content. Competes against Pleasant Plains Dental and Nexus Dental who have modern sites.",
-      "activities": [
-        {
-          "id": "act-3",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "4",
-      "businessName": "Shaunn's Dental Lab",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 9300,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "Family-owned since 1983. B2B dental lab. 4.8 stars. Dated WordPress theme, navigation 3 levels deep, no case gallery showing work quality. B2B audience needs trust signals that are buried or missing.",
-      "activities": [
-        {
-          "id": "act-4",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "5",
-      "businessName": "East Carolina Automotive Services",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 7300,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "NAPA Auto Care Center. BBB A+ rated. Has TWO different websites splitting SEO authority. Both bare-bones with typos. No online booking despite claiming it. Need to consolidate into one professional site.",
-      "activities": [
-        {
-          "id": "act-5",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "6",
-      "businessName": "Metrolina Dental Lab",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website + SEO",
-      "estimatedValue": 12000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "In business since 1968 (58 years). B2B dental lab. Extremely minimal homepage, zero social proof, no case studies, no visual portfolio. Missing SEO content entirely. Ships nationally but site doesn't reflect reach.",
-      "activities": [
-        {
-          "id": "act-6",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "7",
-      "businessName": "S&M Carolina Construction",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "BBB A+ rating. Generic FAQ-only homepage, ZERO portfolio/gallery (fatal for construction), no service pages, missing local SEO. Family-owned, strong reviews but terrible website execution.",
-      "activities": [
-        {
-          "id": "act-7",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "8",
-      "businessName": "Lowry Heating & Cooling",
-      "contactPerson": "Zach",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 2500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "7+ years in business, 100% recommend on Facebook (13 reviews). Basic DIY template, 24/7 emergency service buried instead of prominent, no financing info, no review integration. Monroe HVAC market is hot.",
-      "activities": [
-        {
-          "id": "act-8",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "9",
-      "businessName": "Indian Trail Imports",
-      "contactPerson": "Josh",
-      "phone": "",
-      "email": "",
-      "service": "Website + SEO",
-      "estimatedValue": 8000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "High-end imports (Volvo, BMW, Mercedes, Audi). 4.9 stars, 412 reviews, BBB A+, 20+ years in business. Dated 2010s design, poor mobile, no online booking. Premium clientele expects better. EXCELLENT reputation not being leveraged.",
-      "activities": [
-        {
-          "id": "act-9",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "10",
-      "businessName": "Hinson Electric, Inc.",
-      "contactPerson": "Ron",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 5000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "40+ years in business (founded 1984). $4.3M+ in permitted projects. Commercial/industrial electrical. Outdated design (2012-2015 era), weak portfolio (2 vague photos), no case studies. WHALE CLIENT potential - big budgets.",
-      "activities": [
-        {
-          "id": "act-10",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "11",
-      "businessName": "Sun Valley Family Dentistry",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "~4.5 stars but low online visibility. Ancient template (late-2000s Officite), homepage is wall of plain text, no hero imagery, title tag just 'Welcome', no online booking. Mobile experience likely poor.",
-      "activities": [
-        {
-          "id": "act-11",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    },
-    {
-      "id": "12",
-      "businessName": "Aces Automotive",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "Corvette specialists. 4.7 stars, ~210 reviews. BBB A+, ASE Master Certified. Broken formatting (spaced-out letters in service names), no visual hierarchy, Corvette specialty buried instead of showcased. Needs premium positioning to match reputation.",
-      "activities": [
-        {
-          "id": "act-12",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    },
-    {
-      "id": "13",
-      "businessName": "Full Service Plumbing",
-      "contactPerson": "Steve",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 2500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "20+ years in business. Basic WordPress theme, stock template placeholders, no team/truck/work photos, copyright likely 2017, no Google review integration. Emergency services listed but no after-hours info prominent.",
-      "activities": [
-        {
-          "id": "act-13",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    },
-    {
-      "id": "14",
-      "businessName": "Morales Construction & Remodeling, Inc.",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "Reviews on Houzz but limited Google visibility. Homepage barely 100 words, NO project gallery/portfolio (critical failure for remodeling), no testimonials visible, no clear CTAs. Trust signals missing. Huge SEO opportunity.",
-      "activities": [
-        {
-          "id": "act-14",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    }
-  ],
-  "retainers": [],
-  "lastUpdated": "2026-02-19T08:00:00.000Z"
+﻿{
+    "deals":  [
+                  {
+                      "id":  "1",
+                      "businessName":  "M-TECH Automotive",
+                      "contactPerson":  "",
+                      "phone":  "(704) 882-8996",
+                      "email":  "MTECH001@Hotmail.com",
+                      "service":  "Website",
+                      "estimatedValue":  7300,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "notes":  "Mazda specialist. 4.9 stars, 132 reviews. HTTP site (no SSL), looks like 2005, no online booking. Great reputation but terrible website actively undermines trust.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-1",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "2",
+                      "businessName":  "Love Plumbing \u0026 Air Conditioning Co.",
+                      "contactPerson":  "",
+                      "phone":  "(704) 289-4528",
+                      "email":  "info@plumbingacmonroe.com",
+                      "service":  "Website + SEO",
+                      "estimatedValue":  14500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "notes":  "60+ years in business (since 1963). 4.1 stars, 92 reviews. Extremely thin website (~200 words), no service area pages, typo in title tag. Huge opportunity for local SEO.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-2",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "3",
+                      "businessName":  "Indian Trail Family Dentistry",
+                      "contactPerson":  "Dr. Jed Levitas",
+                      "phone":  "(704) 821-3019",
+                      "email":  "",
+                      "service":  "Full Package",
+                      "estimatedValue":  16500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "notes":  "Cookie-cutter dental template site (Officite). No personalization, no online booking, no hero images, generic stock content. Competes against Pleasant Plains Dental and Nexus Dental who have modern sites.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-3",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "4",
+                      "businessName":  "Shaunn\u0027s Dental Lab",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  9300,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "notes":  "Family-owned since 1983. B2B dental lab. 4.8 stars. Dated WordPress theme, navigation 3 levels deep, no case gallery showing work quality. B2B audience needs trust signals that are buried or missing.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-4",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "5",
+                      "businessName":  "East Carolina Automotive Services",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  7300,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "notes":  "NAPA Auto Care Center. BBB A+ rated. Has TWO different websites splitting SEO authority. Both bare-bones with typos. No online booking despite claiming it. Need to consolidate into one professional site.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-5",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "6",
+                      "businessName":  "Metrolina Dental Lab",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website + SEO",
+                      "estimatedValue":  12000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "notes":  "In business since 1968 (58 years). B2B dental lab. Extremely minimal homepage, zero social proof, no case studies, no visual portfolio. Missing SEO content entirely. Ships nationally but site doesn\u0027t reflect reach.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-6",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "7",
+                      "businessName":  "S\u0026M Carolina Construction",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "notes":  "BBB A+ rating. Generic FAQ-only homepage, ZERO portfolio/gallery (fatal for construction), no service pages, missing local SEO. Family-owned, strong reviews but terrible website execution.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-7",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "8",
+                      "businessName":  "Lowry Heating \u0026 Cooling",
+                      "contactPerson":  "Zach",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  2500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "notes":  "7+ years in business, 100% recommend on Facebook (13 reviews). Basic DIY template, 24/7 emergency service buried instead of prominent, no financing info, no review integration. Monroe HVAC market is hot.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-8",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "9",
+                      "businessName":  "Indian Trail Imports",
+                      "contactPerson":  "Josh",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website + SEO",
+                      "estimatedValue":  8000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "notes":  "High-end imports (Volvo, BMW, Mercedes, Audi). 4.9 stars, 412 reviews, BBB A+, 20+ years in business. Dated 2010s design, poor mobile, no online booking. Premium clientele expects better. EXCELLENT reputation not being leveraged.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-9",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "10",
+                      "businessName":  "Hinson Electric, Inc.",
+                      "contactPerson":  "Ron",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  5000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "notes":  "40+ years in business (founded 1984). $4.3M+ in permitted projects. Commercial/industrial electrical. Outdated design (2012-2015 era), weak portfolio (2 vague photos), no case studies. WHALE CLIENT potential - big budgets.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-10",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "11",
+                      "businessName":  "Sun Valley Family Dentistry",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "notes":  "~4.5 stars but low online visibility. Ancient template (late-2000s Officite), homepage is wall of plain text, no hero imagery, title tag just \u0027Welcome\u0027, no online booking. Mobile experience likely poor.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-11",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "12",
+                      "businessName":  "Aces Automotive",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "notes":  "Corvette specialists. 4.7 stars, ~210 reviews. BBB A+, ASE Master Certified. Broken formatting (spaced-out letters in service names), no visual hierarchy, Corvette specialty buried instead of showcased. Needs premium positioning to match reputation.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-12",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "13",
+                      "businessName":  "Full Service Plumbing",
+                      "contactPerson":  "Steve",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  2500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "notes":  "20+ years in business. Basic WordPress theme, stock template placeholders, no team/truck/work photos, copyright likely 2017, no Google review integration. Emergency services listed but no after-hours info prominent.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-13",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "14",
+                      "businessName":  "Morales Construction \u0026 Remodeling, Inc.",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "notes":  "Reviews on Houzz but limited Google visibility. Homepage barely 100 words, NO project gallery/portfolio (critical failure for remodeling), no testimonials visible, no clear CTAs. Trust signals missing. Huge SEO opportunity.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-14",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  }
+              ],
+    "retainers":  [
+                      {
+                          "id":  "ret-1",
+                          "monthlyAmount":  50,
+                          "startDate":  "2026-01-15",
+                          "nextBillingDate":  "2026-03-15",
+                          "paymentStatus":  "Paid",
+                          "serviceType":  "Website Hosting",
+                          "clientName":  "Cesar"
+                      },
+                      {
+                          "id":  "ret-2",
+                          "monthlyAmount":  25,
+                          "startDate":  "2026-02-10",
+                          "nextBillingDate":  "2026-03-10",
+                          "paymentStatus":  "Paid",
+                          "serviceType":  "Website Hosting",
+                          "clientName":  "Ed Cherkasov / ETH Construction"
+                      }
+                  ],
+    "lastUpdated":  "2026-02-19T08:00:00.000Z"
 }

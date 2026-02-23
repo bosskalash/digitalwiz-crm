@@ -1,8 +1,9 @@
 'use client';
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import { useDeals, useRetainers } from '@/lib/hooks';
 import { Deal, Retainer, Stage, STAGES, Activity } from '@/lib/types';
-import { addActivity, exportData, importData } from '@/lib/store';
+import { addActivity, exportDataAsync, importData } from '@/lib/store';
 import { v4 as uuid } from 'uuid';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 
@@ -47,7 +48,7 @@ export default function Home() {
       {/* Header */}
       <header className="flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-800 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-sm">DW</div>
+          <Image src="/images/digitalwiz-logo.png" alt="Digitalwiz" width={32} height={32} className="rounded-lg" />
           <span className="font-semibold text-lg hidden sm:block">Digitalwiz CRM</span>
         </div>
 
@@ -73,12 +74,12 @@ export default function Home() {
           >
             {syncing ? '⟳ Syncing...' : '🔄 Sync'}
           </button>
-          <button onClick={() => { const b = new Blob([exportData()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); }}
+          <button onClick={async () => { const b = new Blob([await exportDataAsync()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); }}
             className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded">Export</button>
           <button onClick={() => fileRef.current?.click()} className="text-xs text-gray-400 hover:text-white px-2 py-1 border border-gray-700 rounded">Import</button>
           <input ref={fileRef} type="file" accept=".json" className="hidden" onChange={e => {
             const f = e.target.files?.[0]; if (!f) return;
-            f.text().then(t => { importData(t); window.location.reload(); });
+            f.text().then(async t => { await importData(t); window.location.reload(); });
           }} />
         </div>
 
@@ -117,7 +118,7 @@ export default function Home() {
               >
                 {syncing ? '⟳ Syncing...' : '🔄 Sync Prospects'}
               </button>
-              <button onClick={() => { const b = new Blob([exportData()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); setMobileMenuOpen(false); }}
+              <button onClick={async () => { const b = new Blob([await exportDataAsync()], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'crm-backup.json'; a.click(); setMobileMenuOpen(false); }}
                 className="px-4 py-3 rounded-lg text-left text-base text-gray-300 hover:bg-gray-800 min-h-[44px]">📤 Export</button>
               <button onClick={() => { fileRef.current?.click(); setMobileMenuOpen(false); }}
                 className="px-4 py-3 rounded-lg text-left text-base text-gray-300 hover:bg-gray-800 min-h-[44px]">📥 Import</button>
@@ -167,6 +168,9 @@ export default function Home() {
                                         <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
                                         {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
                                       </div>
+                                      {deal.stage === 'Won' && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
+                                        <div className="text-[10px] text-yellow-400 mt-1">💸 ${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()} owed</div>
+                                      )}
                                     </div>
                                   )}
                                 </Draggable>
@@ -251,6 +255,9 @@ function MobilePipelineView({ deals, onSelect, onMove }: { deals: Deal[]; onSele
                       <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
                       {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
                     </div>
+                    {deal.stage === 'Won' && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
+                      <div className="text-xs text-yellow-400 mt-1">💸 ${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()} owed</div>
+                    )}
                     {/* Mobile move stage */}
                     <div className="mt-3 pt-2 border-t border-gray-700" onClick={e => e.stopPropagation()}>
                       <select
@@ -281,8 +288,77 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
   const recentActivities = deals.flatMap(d => d.activities.map(a => ({ ...a, businessName: d.businessName, dealId: d.id })))
     .sort((a, b) => b.timestamp.localeCompare(a.timestamp)).slice(0, 10);
 
+  const currentYear = new Date().getFullYear();
+  const wonDeals = deals.filter(d => d.stage === 'Won');
+  const totalEarned = wonDeals.reduce((s, d) => s + d.estimatedValue, 0);
+  const yearlyMRR = mrr * 12;
+  const projectDeals = wonDeals.filter(d => !d.isRetainer);
+  const totalProjectValue = projectDeals.reduce((s, d) => s + d.estimatedValue, 0);
+  const totalCollected = projectDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
+  const totalOwed = totalProjectValue - totalCollected;
+  const owedDeals = projectDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
+
   return (
     <div className="p-4 md:p-6 overflow-y-auto h-full space-y-6">
+      {/* Revenue Banner */}
+      <div className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 border border-green-500/20 rounded-xl p-4 md:p-6">
+        <h3 className="text-sm font-semibold text-green-400 mb-3">💰 Revenue Tracker — {currentYear}</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div>
+            <div className="text-2xl md:text-3xl font-bold text-white">${totalEarned.toLocaleString()}</div>
+            <div className="text-xs text-green-400/70">Total Won</div>
+          </div>
+          <div>
+            <div className="text-2xl md:text-3xl font-bold text-green-400">${totalCollected.toLocaleString()}</div>
+            <div className="text-xs text-green-400/70">Collected</div>
+          </div>
+          <div>
+            <div className={`text-2xl md:text-3xl font-bold ${totalOwed > 0 ? 'text-yellow-400' : 'text-white'}`}>${totalOwed.toLocaleString()}</div>
+            <div className="text-xs text-green-400/70">Outstanding</div>
+          </div>
+          <div>
+            <div className="text-2xl md:text-3xl font-bold text-white">${mrr.toLocaleString()}<span className="text-sm text-gray-400">/mo</span></div>
+            <div className="text-xs text-green-400/70">Monthly Recurring</div>
+          </div>
+          <div>
+            <div className="text-2xl md:text-3xl font-bold text-white">${yearlyMRR.toLocaleString()}<span className="text-sm text-gray-400">/yr</span></div>
+            <div className="text-xs text-green-400/70">Projected Annual</div>
+          </div>
+          <div>
+            <div className="text-2xl md:text-3xl font-bold text-white">{wonDeals.length}</div>
+            <div className="text-xs text-green-400/70">Deals Won</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Outstanding Balances */}
+      {owedDeals.length > 0 && (
+        <div className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border border-yellow-500/20 rounded-xl p-4">
+          <h3 className="text-sm font-semibold text-yellow-400 mb-3">💸 Who Owes Us</h3>
+          <div className="space-y-2">
+            {owedDeals.map(d => {
+              const owed = d.estimatedValue - (d.amountPaid || 0);
+              const pct = d.estimatedValue > 0 ? Math.round(((d.amountPaid || 0) / d.estimatedValue) * 100) : 0;
+              return (
+                <div key={d.id} onClick={() => onSelect(d)} className="flex items-center justify-between p-3 rounded-lg bg-gray-800/50 cursor-pointer hover:bg-gray-800 transition">
+                  <div>
+                    <div className="text-sm font-medium text-white">{d.businessName}</div>
+                    <div className="text-xs text-gray-400">Paid ${(d.amountPaid || 0).toLocaleString()} of ${d.estimatedValue.toLocaleString()} ({pct}%)</div>
+                    <div className="w-32 bg-gray-700 rounded-full h-1.5 mt-1">
+                      <div className="bg-yellow-400 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-yellow-400">${owed.toLocaleString()}</div>
+                    <div className="text-xs text-gray-500">remaining</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <KPI label="Pipeline Value" value={`$${totalPipeline.toLocaleString()}`} />
         <KPI label="MRR" value={`$${mrr.toLocaleString()}`} />
@@ -372,6 +448,7 @@ function DealDetail({ deal, onClose, onUpdate, onDelete, onMove }: { deal: Deal;
           <div>
             <h2 className="text-lg font-bold">{deal.businessName}</h2>
             <span className="text-xs bg-blue-600/20 text-blue-400 px-2 py-0.5 rounded mt-1 inline-block">{deal.stage}</span>
+            {deal.isRetainer && <span className="text-xs bg-green-600/20 text-green-400 px-2 py-0.5 rounded mt-1 inline-block ml-1">🔄 Retainer</span>}
           </div>
           <button onClick={onClose} className="text-gray-500 hover:text-white text-xl min-h-[44px] min-w-[44px] flex items-center justify-center">×</button>
         </div>
@@ -391,6 +468,26 @@ function DealDetail({ deal, onClose, onUpdate, onDelete, onMove }: { deal: Deal;
               <Info label="Service" value={deal.service || '—'} />
               <Info label="Deal Value" value={`$${deal.estimatedValue.toLocaleString()}`} />
               <Info label="Last Contact" value={new Date(deal.lastInteraction).toLocaleDateString()} />
+              {deal.stage === 'Won' && (
+                <>
+                  <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />
+                  <div>
+                    <div className="text-xs text-gray-500">Balance Owed</div>
+                    <div className={`font-semibold ${(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
+                      {(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+            {/* Website & GBP Links */}
+            <div className="flex flex-wrap gap-2">
+              {deal.website && (
+                <a href={deal.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-lg text-xs text-blue-400 hover:text-blue-300 min-h-[44px]">🌐 Website</a>
+              )}
+              {deal.gbpUrl && (
+                <a href={deal.gbpUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-lg text-xs text-blue-400 hover:text-blue-300 min-h-[44px]">📍 Google Business</a>
+              )}
             </div>
             {deal.notes && <div className="text-sm text-gray-400 bg-gray-800 p-3 rounded-lg">{deal.notes}</div>}
 
@@ -467,6 +564,8 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
       <Input label="Contact Person" value={form.contactPerson} onChange={f('contactPerson')} />
       <Input label="Phone" value={form.phone} onChange={f('phone')} />
       <Input label="Email" value={form.email} onChange={f('email')} />
+      <Input label="Website" value={form.website || ''} onChange={f('website')} />
+      <Input label="Google Business URL" value={form.gbpUrl || ''} onChange={f('gbpUrl')} />
       <div>
         <label className="text-xs text-gray-500">Service</label>
         <select value={form.service} onChange={f('service')} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]">
@@ -474,6 +573,18 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
         </select>
       </div>
       <Input label="Est. Value ($)" value={form.estimatedValue.toString()} onChange={f('estimatedValue')} type="number" />
+      <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />
+      <div className="flex items-center gap-3 mt-1">
+        <label className="text-xs text-gray-500">Retainer Client</label>
+        <button
+          type="button"
+          onClick={() => setForm({ ...form, isRetainer: !form.isRetainer })}
+          className={`w-10 h-6 rounded-full transition ${form.isRetainer ? 'bg-green-500' : 'bg-gray-700'} relative`}
+        >
+          <span className={`block w-4 h-4 bg-white rounded-full absolute top-1 transition-transform ${form.isRetainer ? 'translate-x-5' : 'translate-x-1'}`} />
+        </button>
+        <span className="text-xs text-gray-400">{form.isRetainer ? 'Yes — excluded from "Who Owes Us"' : 'No — one-time project'}</span>
+      </div>
       <div>
         <label className="text-xs text-gray-500">Stage</label>
         <select value={form.stage} onChange={f('stage') as any} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]">
@@ -506,16 +617,18 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
+  const [website, setWebsite] = useState('');
+  const [gbpUrl, setGbpUrl] = useState('');
   const [notes, setNotes] = useState('');
   const [value, setValue] = useState('');
 
   function submit() {
     if (!name.trim()) return;
     const deal: Deal = {
-      id: uuid(), businessName: name.trim(), contactPerson: '', phone, email, service: '',
+      id: uuid(), businessName: name.trim(), contactPerson: '', phone, email, website, gbpUrl, service: '',
       estimatedValue: Number(value) || 0, stage: 'Prospect', lastInteraction: new Date().toISOString(),
       notes, activities: [{ id: uuid(), type: 'created', description: 'Deal created', timestamp: new Date().toISOString() }],
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString(), amountPaid: 0, isRetainer: false,
     };
     onAdd(deal);
     onClose();
@@ -523,12 +636,14 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-gray-900 rounded-2xl w-full max-w-sm p-5" onClick={e => e.stopPropagation()}>
+      <div className="bg-gray-900 rounded-2xl w-full max-w-sm p-5 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <h2 className="text-lg font-bold mb-4">Quick Add Prospect</h2>
         <div className="space-y-3">
           <Input label="Business Name *" value={name} onChange={e => setName(e.target.value)} />
           <Input label="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
           <Input label="Email" value={email} onChange={e => setEmail(e.target.value)} />
+          <Input label="Website" value={website} onChange={e => setWebsite(e.target.value)} />
+          <Input label="Google Business URL" value={gbpUrl} onChange={e => setGbpUrl(e.target.value)} />
           <Input label="Est. Value ($)" value={value} onChange={e => setValue(e.target.value)} type="number" />
           <div>
             <label className="text-xs text-gray-500">Notes</label>

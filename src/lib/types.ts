@@ -19,9 +19,13 @@ export interface Deal {
   estimatedValue: number;
   stage: Stage;
   lastInteraction: string;
+  website: string;
+  gbpUrl: string;
   notes: string;
   activities: Activity[];
   createdAt: string;
+  amountPaid: number;
+  isRetainer: boolean;
 }
 
 export interface Retainer {

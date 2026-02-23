@@ -1,300 +1,850 @@
-{
-  "deals": [
-    {
-      "id": "1",
-      "businessName": "M-TECH Automotive",
-      "contactPerson": "",
-      "phone": "(704) 882-8996",
-      "email": "MTECH001@Hotmail.com",
-      "service": "Website",
-      "estimatedValue": 7300,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "Mazda specialist. 4.9 stars, 132 reviews. HTTP site (no SSL), looks like 2005, no online booking. Great reputation but terrible website actively undermines trust.",
-      "activities": [
-        {
-          "id": "act-1",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "2",
-      "businessName": "Love Plumbing & Air Conditioning Co.",
-      "contactPerson": "",
-      "phone": "(704) 289-4528",
-      "email": "info@plumbingacmonroe.com",
-      "service": "Website + SEO",
-      "estimatedValue": 14500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "60+ years in business (since 1963). 4.1 stars, 92 reviews. Extremely thin website (~200 words), no service area pages, typo in title tag. Huge opportunity for local SEO.",
-      "activities": [
-        {
-          "id": "act-2",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "3",
-      "businessName": "Indian Trail Family Dentistry",
-      "contactPerson": "Dr. Jed Levitas",
-      "phone": "(704) 821-3019",
-      "email": "",
-      "service": "Full Package",
-      "estimatedValue": 16500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "Cookie-cutter dental template site (Officite). No personalization, no online booking, no hero images, generic stock content. Competes against Pleasant Plains Dental and Nexus Dental who have modern sites.",
-      "activities": [
-        {
-          "id": "act-3",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "4",
-      "businessName": "Shaunn's Dental Lab",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 9300,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "Family-owned since 1983. B2B dental lab. 4.8 stars. Dated WordPress theme, navigation 3 levels deep, no case gallery showing work quality. B2B audience needs trust signals that are buried or missing.",
-      "activities": [
-        {
-          "id": "act-4",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "5",
-      "businessName": "East Carolina Automotive Services",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 7300,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-17T00:00:00.000Z",
-      "notes": "NAPA Auto Care Center. BBB A+ rated. Has TWO different websites splitting SEO authority. Both bare-bones with typos. No online booking despite claiming it. Need to consolidate into one professional site.",
-      "activities": [
-        {
-          "id": "act-5",
-          "type": "created",
-          "description": "Added from prospect research - Feb 17, 2026",
-          "timestamp": "2026-02-17T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-17T00:00:00.000Z"
-    },
-    {
-      "id": "6",
-      "businessName": "Metrolina Dental Lab",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website + SEO",
-      "estimatedValue": 12000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "In business since 1968 (58 years). B2B dental lab. Extremely minimal homepage, zero social proof, no case studies, no visual portfolio. Missing SEO content entirely. Ships nationally but site doesn't reflect reach.",
-      "activities": [
-        {
-          "id": "act-6",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "7",
-      "businessName": "S&M Carolina Construction",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "BBB A+ rating. Generic FAQ-only homepage, ZERO portfolio/gallery (fatal for construction), no service pages, missing local SEO. Family-owned, strong reviews but terrible website execution.",
-      "activities": [
-        {
-          "id": "act-7",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "8",
-      "businessName": "Lowry Heating & Cooling",
-      "contactPerson": "Zach",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 2500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "7+ years in business, 100% recommend on Facebook (13 reviews). Basic DIY template, 24/7 emergency service buried instead of prominent, no financing info, no review integration. Monroe HVAC market is hot.",
-      "activities": [
-        {
-          "id": "act-8",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "9",
-      "businessName": "Indian Trail Imports",
-      "contactPerson": "Josh",
-      "phone": "",
-      "email": "",
-      "service": "Website + SEO",
-      "estimatedValue": 8000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "High-end imports (Volvo, BMW, Mercedes, Audi). 4.9 stars, 412 reviews, BBB A+, 20+ years in business. Dated 2010s design, poor mobile, no online booking. Premium clientele expects better. EXCELLENT reputation not being leveraged.",
-      "activities": [
-        {
-          "id": "act-9",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "10",
-      "businessName": "Hinson Electric, Inc.",
-      "contactPerson": "Ron",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 5000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-18T00:00:00.000Z",
-      "notes": "40+ years in business (founded 1984). $4.3M+ in permitted projects. Commercial/industrial electrical. Outdated design (2012-2015 era), weak portfolio (2 vague photos), no case studies. WHALE CLIENT potential - big budgets.",
-      "activities": [
-        {
-          "id": "act-10",
-          "type": "created",
-          "description": "Added from prospect research - Feb 18, 2026",
-          "timestamp": "2026-02-18T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-18T00:00:00.000Z"
-    },
-    {
-      "id": "11",
-      "businessName": "Sun Valley Family Dentistry",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "~4.5 stars but low online visibility. Ancient template (late-2000s Officite), homepage is wall of plain text, no hero imagery, title tag just 'Welcome', no online booking. Mobile experience likely poor.",
-      "activities": [
-        {
-          "id": "act-11",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    },
-    {
-      "id": "12",
-      "businessName": "Aces Automotive",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "Corvette specialists. 4.7 stars, ~210 reviews. BBB A+, ASE Master Certified. Broken formatting (spaced-out letters in service names), no visual hierarchy, Corvette specialty buried instead of showcased. Needs premium positioning to match reputation.",
-      "activities": [
-        {
-          "id": "act-12",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    },
-    {
-      "id": "13",
-      "businessName": "Full Service Plumbing",
-      "contactPerson": "Steve",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 2500,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "20+ years in business. Basic WordPress theme, stock template placeholders, no team/truck/work photos, copyright likely 2017, no Google review integration. Emergency services listed but no after-hours info prominent.",
-      "activities": [
-        {
-          "id": "act-13",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    },
-    {
-      "id": "14",
-      "businessName": "Morales Construction & Remodeling, Inc.",
-      "contactPerson": "",
-      "phone": "",
-      "email": "",
-      "service": "Website",
-      "estimatedValue": 3000,
-      "stage": "Prospect",
-      "lastInteraction": "2026-02-19T00:00:00.000Z",
-      "notes": "Reviews on Houzz but limited Google visibility. Homepage barely 100 words, NO project gallery/portfolio (critical failure for remodeling), no testimonials visible, no clear CTAs. Trust signals missing. Huge SEO opportunity.",
-      "activities": [
-        {
-          "id": "act-14",
-          "type": "created",
-          "description": "Added from prospect research - Feb 19, 2026",
-          "timestamp": "2026-02-19T00:00:00.000Z"
-        }
-      ],
-      "createdAt": "2026-02-19T00:00:00.000Z"
-    }
-  ],
-  "retainers": [],
-  "lastUpdated": "2026-02-19T08:00:00.000Z"
+﻿{
+    "deals":  [
+                  {
+                      "id":  "1",
+                      "businessName":  "M-TECH Automotive",
+                      "contactPerson":  "",
+                      "phone":  "(704) 882-8996",
+                      "email":  "MTECH001@Hotmail.com",
+                      "service":  "Website",
+                      "estimatedValue":  7300,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "website":  "http://m-techauto.com/",
+                      "gbpUrl":  "https://maps.google.com/?cid=8514010075104543333",
+                      "notes":  "Mazda specialist. 4.9 stars, 132 reviews. HTTP site (no SSL), looks like 2005, no online booking. Great reputation but terrible website actively undermines trust.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-1",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-e419fb38",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:33.9240721Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "2",
+                      "businessName":  "Love Plumbing \u0026 Air Conditioning Co.",
+                      "contactPerson":  "",
+                      "phone":  "(704) 289-4528",
+                      "email":  "info@plumbingacmonroe.com",
+                      "service":  "Website + SEO",
+                      "estimatedValue":  14500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "website":  "https://www.plumbingacmonroe.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Love+Plumbing+Air+Conditioning+Monroe+NC",
+                      "notes":  "60+ years in business (since 1963). 4.1 stars, 92 reviews. Extremely thin website (~200 words), no service area pages, typo in title tag. Huge opportunity for local SEO.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-2",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "3",
+                      "businessName":  "Indian Trail Family Dentistry",
+                      "contactPerson":  "Dr. Jed Levitas",
+                      "phone":  "(704) 821-3019",
+                      "email":  "",
+                      "service":  "Full Package",
+                      "estimatedValue":  16500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "website":  "https://www.indiantrailfamilydentistry.com",
+                      "gbpUrl":  "https://maps.google.com/?q=Indian+Trail+Family+Dentistry+NC",
+                      "notes":  "Cookie-cutter dental template site (Officite). No personalization, no online booking, no hero images, generic stock content. Competes against Pleasant Plains Dental and Nexus Dental who have modern sites.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-3",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-email-9c620508",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:22.5185169Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "4",
+                      "businessName":  "Shaunn\u0027s Dental Lab",
+                      "contactPerson":  "Ronnie",
+                      "phone":  "(704) 455-3001",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  9300,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "website":  "https://shaunnsdentallab.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Shaunns+Dental+Lab+Harrisburg+NC",
+                      "notes":  "Family-owned since 1983. B2B dental lab. 4.8 stars. Dated WordPress theme, navigation 3 levels deep, no case gallery showing work quality. B2B audience needs trust signals that are buried or missing.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-4",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-e3843af4",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:34.5261435Z"
+                                         },
+                                         {
+                                             "id":  "act-email-d29e7f25",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:28.1862120Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "5",
+                      "businessName":  "East Carolina Automotive Services",
+                      "contactPerson":  "",
+                      "phone":  "(704) 821-5224",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  7300,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-17T00:00:00.000Z",
+                      "website":  "https://www.autorepair-indiantrail.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=East+Carolina+Automotive+Indian+Trail+NC",
+                      "notes":  "NAPA Auto Care Center. BBB A+ rated. Has TWO different websites splitting SEO authority. Both bare-bones with typos. No online booking despite claiming it. Need to consolidate into one professional site.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-5",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 17, 2026",
+                                             "timestamp":  "2026-02-17T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-e12b5562",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:35.2281435Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-17T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "6",
+                      "businessName":  "Metrolina Dental Lab",
+                      "contactPerson":  "",
+                      "phone":  "(704) 366-0877",
+                      "email":  "",
+                      "service":  "Website + SEO",
+                      "estimatedValue":  12000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "website":  "https://www.metrolinadentallab.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Metrolina+Dental+Lab+Charlotte+NC",
+                      "notes":  "In business since 1968 (58 years). B2B dental lab. Extremely minimal homepage, zero social proof, no case studies, no visual portfolio. Missing SEO content entirely. Ships nationally but site doesn\u0027t reflect reach.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-6",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-349e2c52",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:35.7480001Z"
+                                         },
+                                         {
+                                             "id":  "act-email-78a7af00",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:34.0247837Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "7",
+                      "businessName":  "S\u0026M Carolina Construction",
+                      "contactPerson":  "",
+                      "phone":  "(704) 879-3525",
+                      "email":  "info@smcarolinaconstruction.com",
+                      "service":  "Website",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "website":  "https://smcarolinaconstruction.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=S+M+Carolina+Construction+Indian+Trail+NC",
+                      "notes":  "BBB A+ rating. Generic FAQ-only homepage, ZERO portfolio/gallery (fatal for construction), no service pages, missing local SEO. Family-owned, strong reviews but terrible website execution.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-7",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-c7dd5ec2",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:36.2754096Z"
+                                         },
+                                         {
+                                             "id":  "act-email-65dc6892",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:36.9671766Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "8",
+                      "businessName":  "Lowry Heating \u0026 Cooling",
+                      "contactPerson":  "Zach",
+                      "phone":  "(330) 745-4822",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  2500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "website":  "https://www.lowryheatingandcoolingnc.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Lowry+Heating+Cooling+Monroe+NC",
+                      "notes":  "7+ years in business, 100% recommend on Facebook (13 reviews). Basic DIY template, 24/7 emergency service buried instead of prominent, no financing info, no review integration. Monroe HVAC market is hot.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-8",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-434d0804",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:36.8636796Z"
+                                         },
+                                         {
+                                             "id":  "act-email-db8e5f7c",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:37.6847107Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "9",
+                      "businessName":  "Indian Trail Imports",
+                      "contactPerson":  "Josh",
+                      "phone":  "(704) 821-8627",
+                      "email":  "",
+                      "service":  "Website + SEO",
+                      "estimatedValue":  8000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "website":  "https://www.indiantrailimports.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Indian+Trail+Imports+NC",
+                      "notes":  "High-end imports (Volvo, BMW, Mercedes, Audi). 4.9 stars, 412 reviews, BBB A+, 20+ years in business. Dated 2010s design, poor mobile, no online booking. Premium clientele expects better. EXCELLENT reputation not being leveraged.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-9",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-72095716",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:37.4744621Z"
+                                         },
+                                         {
+                                             "id":  "act-email-0e1caa3e",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:39.2366296Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "10",
+                      "businessName":  "Hinson Electric, Inc.",
+                      "contactPerson":  "Ron",
+                      "phone":  "",
+                      "email":  "atarlton@hinsonelectricinc.com",
+                      "service":  "Website",
+                      "estimatedValue":  5000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-18T00:00:00.000Z",
+                      "website":  "https://hinsonelectricinc.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Hinson+Electric+Monroe+NC",
+                      "notes":  "40+ years in business (founded 1984). $4.3M+ in permitted projects. Commercial/industrial electrical. Outdated design (2012-2015 era), weak portfolio (2 vague photos), no case studies. WHALE CLIENT potential - big budgets.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-10",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 18, 2026",
+                                             "timestamp":  "2026-02-18T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-email-8c0f07e5",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:48.7347889Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-18T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "11",
+                      "businessName":  "Sun Valley Family Dentistry",
+                      "contactPerson":  "",
+                      "phone":  "(704) 282-0600",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "website":  "https://www.sunvalleyfamilydentistry.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Sun+Valley+Family+Dentistry+Indian+Trail+NC",
+                      "notes":  "~4.5 stars but low online visibility. Ancient template (late-2000s Officite), homepage is wall of plain text, no hero imagery, title tag just \u0027Welcome\u0027, no online booking. Mobile experience likely poor.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-11",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-6ce686f1",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:38.0797990Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "12",
+                      "businessName":  "Aces Automotive",
+                      "contactPerson":  "",
+                      "phone":  "(704) 684-0265",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "website":  "https://acesautomotivenc.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Aces+Automotive+Indian+Trail+NC",
+                      "notes":  "Corvette specialists. 4.7 stars, ~210 reviews. BBB A+, ASE Master Certified. Broken formatting (spaced-out letters in service names), no visual hierarchy, Corvette specialty buried instead of showcased. Needs premium positioning to match reputation.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-12",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-86ac31e9",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:38.6689239Z"
+                                         },
+                                         {
+                                             "id":  "act-email-5b433f5a",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:52.5707051Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "13",
+                      "businessName":  "Full Service Plumbing",
+                      "contactPerson":  "Steve",
+                      "phone":  "(803) 844-5623",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  2500,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "website":  "https://fullserviceplumbingnc.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Full+Service+Plumbing+Indian+Trail+NC",
+                      "notes":  "20+ years in business. Basic WordPress theme, stock template placeholders, no team/truck/work photos, copyright likely 2017, no Google review integration. Emergency services listed but no after-hours info prominent.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-13",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         },
+                                         {
+                                             "id":  "act-enrich-68ce9820",
+                                             "type":  "updated",
+                                             "description":  "Enriched with Google Places API (phone/GBP).",
+                                             "timestamp":  "2026-02-20T06:10:39.2736362Z"
+                                         },
+                                         {
+                                             "id":  "act-email-14a459e2",
+                                             "type":  "updated",
+                                             "description":  "Enriched email from website/contact page scrape.",
+                                             "timestamp":  "2026-02-20T06:12:54.6885155Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "14",
+                      "businessName":  "Morales Construction \u0026 Remodeling, Inc.",
+                      "contactPerson":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "service":  "Website",
+                      "estimatedValue":  3000,
+                      "stage":  "Prospect",
+                      "lastInteraction":  "2026-02-19T00:00:00.000Z",
+                      "website":  "https://mconstructionnc.com/",
+                      "gbpUrl":  "https://maps.google.com/?q=Morales+Construction+Remodeling+Indian+Trail+NC",
+                      "notes":  "Reviews on Houzz but limited Google visibility. Homepage barely 100 words, NO project gallery/portfolio (critical failure for remodeling), no testimonials visible, no clear CTAs. Trust signals missing. Huge SEO opportunity.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-14",
+                                             "type":  "created",
+                                             "description":  "Added from prospect research - Feb 19, 2026",
+                                             "timestamp":  "2026-02-19T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-19T00:00:00.000Z"
+                  },
+                  {
+                      "id":  "manual_04b3978710",
+                      "businessName":  "ETH Construction",
+                      "contactPerson":  "Ed Cherkasov",
+                      "phone":  "",
+                      "email":  "Eth.con.nc@gmail.com",
+                      "service":  "Website + Hosting",
+                      "estimatedValue":  300,
+                      "stage":  "Won",
+                      "lastInteraction":  "2026-02-21T01:03:27.443694+00:00",
+                      "website":  "https://eth-construction.com",
+                      "gbpUrl":  "",
+                      "notes":  "Active hosting client: /month website hosting subscription.",
+                      "activities":  [
+                                         {
+                                             "id":  "act_4056457c",
+                                             "type":  "created",
+                                             "description":  "Added from retained client update",
+                                             "timestamp":  "2026-02-21T01:03:27.443694+00:00"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-21T01:03:27.443694+00:00"
+                  },
+                  {
+                      "website":  "https://www.indiantraildentalassociates.com/",
+                      "id":  "15",
+                      "service":  "Website",
+                      "gbpUrl":  "https://maps.google.com/?q=Indian+Trail+Dental+Associates+Monroe+NC",
+                      "stage":  "Prospect",
+                      "estimatedValue":  3500,
+                      "contactPerson":  "Dr. Richard M. Holmes",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-21T10:02:49.2893816Z",
+                                             "description":  "Added from prospect research - Feb 21, 2026",
+                                             "id":  "act-15",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Indian Trail Dental Associates",
+                      "phone":  "(704) 289-8366",
+                      "notes":  "4.4 stars, 13 reviews. Single-paragraph website with zero imagery, no online booking, no service pages. Established practice with longevity but terrible web presence vs competitors.",
+                      "createdAt":  "2026-02-21T10:02:49.2893816Z",
+                      "lastInteraction":  "2026-02-21T10:02:49.2893816Z",
+                      "email":  ""
+                  },
+                  {
+                      "website":  "https://carolinaeurowerksnc.com/",
+                      "id":  "16",
+                      "service":  "Website",
+                      "gbpUrl":  "https://maps.google.com/?q=Carolina+Eurowerks+Indian+Trail+NC",
+                      "stage":  "Prospect",
+                      "estimatedValue":  4000,
+                      "contactPerson":  "",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-21T10:02:49.2893816Z",
+                                             "description":  "Added from prospect research - Feb 21, 2026",
+                                             "id":  "act-16",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Carolina Eurowerks",
+                      "phone":  "(704) 234-8888",
+                      "notes":  "4.9 stars, 243 reviews. European auto specialist. Homepage is single generic paragraph, no service pages, no vehicle gallery, no online booking. Premium reputation not reflected in website.",
+                      "createdAt":  "2026-02-21T10:02:49.2893816Z",
+                      "lastInteraction":  "2026-02-21T10:02:49.2893816Z",
+                      "email":  "Carolinaeurowerks@gmail.com"
+                  },
+                  {
+                      "website":  "http://visionelectricinc.net/",
+                      "id":  "17",
+                      "service":  "Website",
+                      "gbpUrl":  "https://maps.google.com/?q=Vision+Electric+Inc+Charlotte+NC",
+                      "stage":  "Prospect",
+                      "estimatedValue":  3000,
+                      "contactPerson":  "",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-21T10:02:49.2893816Z",
+                                             "description":  "Added from prospect research - Feb 21, 2026",
+                                             "id":  "act-17",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Vision Electric, Inc.",
+                      "phone":  "",
+                      "notes":  "28+ years in business. HTTP-only (no SSL), typo on homepage (SERVIVE), extremely dated design, no portfolio, no testimonials. Sports/outdoor lighting specialty not showcased.",
+                      "createdAt":  "2026-02-21T10:02:49.2893816Z",
+                      "lastInteraction":  "2026-02-21T10:02:49.2893816Z",
+                      "email":  ""
+                  },
+                  {
+                      "website":  "https://bookconstructioninc.com/",
+                      "id":  "18",
+                      "service":  "Website + SEO",
+                      "gbpUrl":  "https://maps.google.com/?q=Book+Construction+Indian+Trail+NC",
+                      "stage":  "Prospect",
+                      "estimatedValue":  4500,
+                      "contactPerson":  "Derrick Book",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-21T10:02:49.2893816Z",
+                                             "description":  "Added from prospect research - Feb 21, 2026",
+                                             "id":  "act-18",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Book Construction Inc.",
+                      "phone":  "",
+                      "notes":  "30+ years, A+ BBB, Remodeler of the Year. Dated design, no before/after gallery, no video testimonials, thin service pages. Award-winning company with a website that doesnt reflect it.",
+                      "createdAt":  "2026-02-21T10:02:49.2893816Z",
+                      "lastInteraction":  "2026-02-21T10:02:49.2893816Z",
+                      "email":  ""
+                  },
+                  {
+                      "website":  "https://www.geminiconstructioninc.com/",
+                      "id":  "19",
+                      "service":  "Website",
+                      "gbpUrl":  "https://maps.google.com/?q=Gemini+Construction+Restoration+Monroe+NC",
+                      "stage":  "Prospect",
+                      "estimatedValue":  3500,
+                      "contactPerson":  "Jamie Rogers",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-21T10:02:49.2893816Z",
+                                             "description":  "Added from prospect research - Feb 21, 2026",
+                                             "id":  "act-19",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Gemini Construction \u0026 Restoration Inc.",
+                      "phone":  "(704) 400-6826",
+                      "notes":  "Licensed GC serving Charlotte metro. Generic template site, discount promotion undermines positioning, no portfolio, thin content. Competing against better-positioned remodelers.",
+                      "createdAt":  "2026-02-21T10:02:49.2893816Z",
+                      "lastInteraction":  "2026-02-21T10:02:49.2893816Z",
+                      "email":  "info@geminiconstructioninc.com"
+                  },
+                  {
+                      "source":  "stripe-sync",
+                      "id":  "manual_cesar_001",
+                      "businessName":  "Pisa Floors",
+                      "contactPerson":  "Cesar Fonseca",
+                      "stage":  "Won",
+                      "notes":  "$50/mo hosting retainer - annual value $600",
+                      "estimatedValue":  600,
+                      "service":  "Website + Hosting",
+                      "website":  "",
+                      "phone":  "",
+                      "email":  "",
+                      "lastInteraction":  "2025-04-14T00:00:00.000Z",
+                      "createdAt":  "2025-04-14T00:00:00.000Z",
+                      "activities":  [
+                                         {
+                                             "id":  "act-cesar-001",
+                                             "type":  "created",
+                                             "description":  "Won - $50/mo hosting retainer via Stripe",
+                                             "timestamp":  "2025-04-14T00:00:00.000Z"
+                                         }
+                                     ]
+                  },
+                  {
+                      "id":  "manual_alex_lawnscape_001",
+                      "businessName":  "Alex\u0027s Lawnscape",
+                      "contactPerson":  "Alex Kalashnik",
+                      "phone":  "(704) 724-1940",
+                      "email":  "",
+                      "service":  "Website Rebuild",
+                      "estimatedValue":  2500,
+                      "stage":  "Won",
+                      "lastInteraction":  "2026-02-21T00:00:00.000Z",
+                      "website":  "https://www.alexslawnscape.com/",
+                      "gbpUrl":  "",
+                      "notes":  "$2,500 website rebuild. $1,000 down payment received Feb 21. Balance: $1,500 due on delivery. Upgrading from Squarespace to Next.js. Landscaping \u0026 hardscaping company in Charlotte NC, 150+ 5-star reviews.",
+                      "activities":  [
+                                         {
+                                             "id":  "act-alex-001",
+                                             "type":  "note",
+                                             "description":  "Won - $2,500 website rebuild. $1K down payment received.",
+                                             "timestamp":  "2026-02-21T00:00:00.000Z"
+                                         }
+                                     ],
+                      "createdAt":  "2026-02-21T00:00:00.000Z"
+                  },
+                  {
+                      "service":  "Website",
+                      "id":  "20",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "website":  "https://www.aircentralofthecarolinas.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Air+Central+of+the+Carolinas+Indian+Trail+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-22T20:48:18.509Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-20",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Air Central of the Carolinas",
+                      "phone":  "(704) 882-4371",
+                      "notes":  "20+ years HVAC, 4.9 Angi rating. Generic template design, no mobile optimization, missing trust signals, no online booking. Excellent reputation not reflected in website.",
+                      "createdAt":  "2026-02-22T20:48:18.509Z",
+                      "lastInteraction":  "2026-02-22T20:48:18.509Z",
+                      "email":  ""
+                  },
+                  {
+                      "service":  "Website",
+                      "id":  "21",
+                      "estimatedValue":  4000,
+                      "stage":  "Prospect",
+                      "website":  "https://harperselectricnc.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Harpers+Electric+Monroe+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-22T20:48:18.509Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-21",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Harpers Electric",
+                      "phone":  "",
+                      "notes":  "29 years electrical (since 1995). Serves major commercial clients (power plants, steel). Text-heavy dated website, no portfolio, missing B2B optimization.",
+                      "createdAt":  "2026-02-22T20:48:18.509Z",
+                      "lastInteraction":  "2026-02-22T20:48:18.509Z",
+                      "email":  ""
+                  },
+                  {
+                      "service":  "Website",
+                      "id":  "22",
+                      "estimatedValue":  2800,
+                      "stage":  "Prospect",
+                      "website":  "https://www.redrock-automotive.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Red+Rock+Automotive+Indian+Trail+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-22T20:48:18.509Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-22",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Red Rock Automotive",
+                      "phone":  "",
+                      "notes":  "NAPA Auto Care Center. Under 200 words on homepage, no service descriptions, no online booking, no reviews integration. Basic web presence for trusted brand.",
+                      "createdAt":  "2026-02-22T20:48:18.509Z",
+                      "lastInteraction":  "2026-02-22T20:48:18.509Z",
+                      "email":  ""
+                  },
+                  {
+                      "service":  "Website",
+                      "id":  "23",
+                      "estimatedValue":  3200,
+                      "stage":  "Prospect",
+                      "website":  "https://americantitanelectric.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=American+Titan+Electric+Charlotte+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-22T20:48:18.509Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-23",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "American Titan Electric",
+                      "phone":  "",
+                      "notes":  "Licensed electricians serving Charlotte metro. Generic WordPress template, no unique branding, missing service area pages, weak local SEO.",
+                      "createdAt":  "2026-02-22T20:48:18.509Z",
+                      "lastInteraction":  "2026-02-22T20:48:18.509Z",
+                      "email":  ""
+                  },
+                  {
+                      "service":  "Website",
+                      "id":  "24",
+                      "estimatedValue":  3000,
+                      "stage":  "Prospect",
+                      "website":  "https://www.indiantrailair.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Indian+Trail+Air+Heat+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-22T20:48:18.509Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-24",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Indian Trail Air \u0026 Heat",
+                      "phone":  "",
+                      "notes":  "25+ years HVAC, veteran-owned. Template design, testimonials not prominent, financing buried, no emergency services highlight. Missing veteran/local positioning.",
+                      "createdAt":  "2026-02-22T20:48:18.509Z",
+                      "lastInteraction":  "2026-02-22T20:48:18.509Z",
+                      "email":  ""
+                  }
+              ],
+    "retainers":  [
+                      {
+                          "id":  "manual_1a8d24a697",
+                          "clientName":  "Ed Cherkasov",
+                          "serviceType":  "Website Hosting - Eth Construction (eth-construction.com) | Email: Eth.con.nc@gmail.com",
+                          "monthlyAmount":  25,
+                          "startDate":  "2026-02-20",
+                          "nextBillingDate":  "2026-03-22",
+                          "paymentStatus":  "Pending"
+                      },
+                      {
+                          "id":  "stripe_sub_sub_1RDmLeRqMIol4BvhTOwGa1RB",
+                          "clientName":  "Cesar Fonseca",
+                          "serviceType":  "price_1RDmLPRqMIol4BvhmxsjP3dk",
+                          "monthlyAmount":  50,
+                          "startDate":  "2025-04-14",
+                          "nextBillingDate":  "2026-03-14",
+                          "paymentStatus":  "Paid"
+                      }
+                  ],
+                  {
+                      "service":  "Website",
+                      "id":  "25",
+                      "estimatedValue":  3500,
+                      "stage":  "Prospect",
+                      "website":  "https://www.helmsheating.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Helms+Heating+Air+Conditioning+Indian+Trail+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-23T01:52:00.000Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-25",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Helms Heating & Air Conditioning, Inc.",
+                      "phone":  "(704) 821-6255",
+                      "notes":  "Since 1979 (45+ years), BBB accredited, Carrier authorized dealer. Extremely minimal content (200 words), awkward Google review link placement, no service area pages, missing trust signals, no online booking.",
+                      "createdAt":  "2026-02-23T01:52:00.000Z",
+                      "lastInteraction":  "2026-02-23T01:52:00.000Z",
+                      "email":  ""
+                  },
+                  {
+                      "service":  "Website",
+                      "id":  "26",
+                      "estimatedValue":  3200,
+                      "stage":  "Prospect",
+                      "website":  "https://unionfamilydental.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Union+Family+Dental+Monroe+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-23T01:52:00.000Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-26",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Union Family Dental Clinic",
+                      "phone":  "",
+                      "notes":  "Monroe dental practice. Extremely thin homepage content (under 300 words), no service pages, no team photos, no testimonials, no online booking, missing insurance info.",
+                      "createdAt":  "2026-02-23T01:52:00.000Z",
+                      "lastInteraction":  "2026-02-23T01:52:00.000Z",
+                      "email":  ""
+                  },
+                  {
+                      "service":  "Website Modernization",
+                      "id":  "27",
+                      "estimatedValue":  2800,
+                      "stage":  "Prospect",
+                      "website":  "https://baucomplumbing.com/",
+                      "contactPerson":  "",
+                      "gbpUrl":  "https://maps.google.com/?q=Baucom+Plumbing+Monroe+NC",
+                      "activities":  [
+                                         {
+                                             "timestamp":  "2026-02-23T01:52:00.000Z",
+                                             "description":  "Added from prospect research - Feb 23, 2026",
+                                             "id":  "act-27",
+                                             "type":  "created"
+                                         }
+                                     ],
+                      "businessName":  "Baucom Plumbing Contracting, Inc.",
+                      "phone":  "(704) 289-3368",
+                      "notes":  "Since 1981 (43+ years), family-owned, Master P1 license. Decent content but needs modernization: no online booking, limited local SEO, no Google reviews integration, emergency services not prominent.",
+                      "createdAt":  "2026-02-23T01:52:00.000Z",
+                      "lastInteraction":  "2026-02-23T01:52:00.000Z",
+                      "email":  ""
+                  }
+              ],
+    "retainers":  [
+                      {
+                          "id":  "manual_1a8d24a697",
+                          "clientName":  "Ed Cherkasov",
+                          "serviceType":  "Website Hosting - Eth Construction (eth-construction.com) | Email: Eth.con.nc@gmail.com",
+                          "monthlyAmount":  25,
+                          "startDate":  "2026-02-20",
+                          "nextBillingDate":  "2026-03-22",
+                          "paymentStatus":  "Pending"
+                      },
+                      {
+                          "id":  "stripe_sub_sub_1RDmLeRqMIol4BvhTOwGa1RB",
+                          "clientName":  "Cesar Fonseca",
+                          "serviceType":  "price_1RDmLPRqMIol4BvhmxsjP3dk",
+                          "monthlyAmount":  50,
+                          "startDate":  "2025-04-14",
+                          "nextBillingDate":  "2026-03-14",
+                          "paymentStatus":  "Paid"
+                      }
+                  ],
+    "lastUpdated":  "2026-02-23T01:52:00.000Z"
 }
