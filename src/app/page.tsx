@@ -168,10 +168,10 @@ export default function Home() {
                                         <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
                                         {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
                                       </div>
-                                      {deal.stage === 'Won' && !deal.isRetainer && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
+                                      {deal.stage === 'Won' && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
                                         <div className="text-[10px] text-yellow-400 mt-1">💸 ${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()} owed</div>
                                       )}
-                                      {deal.isRetainer && deal.monthlyRetainer > 0 && (
+                                      {deal.monthlyRetainer > 0 && (
                                         <div className="text-[10px] text-blue-400 mt-1">↻ ${deal.monthlyRetainer}/mo</div>
                                       )}
                                     </div>
@@ -258,10 +258,10 @@ function MobilePipelineView({ deals, onSelect, onMove }: { deals: Deal[]; onSele
                       <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
                       {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
                     </div>
-                    {deal.stage === 'Won' && !deal.isRetainer && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
+                    {deal.stage === 'Won' && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
                       <div className="text-xs text-yellow-400 mt-1">💸 ${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()} owed</div>
                     )}
-                    {deal.isRetainer && deal.monthlyRetainer > 0 && (
+                    {deal.monthlyRetainer > 0 && (
                       <div className="text-xs text-blue-400 mt-1">↻ ${deal.monthlyRetainer}/mo</div>
                     )}
                     {/* Mobile move stage */}
@@ -296,16 +296,15 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
 
   const currentYear = new Date().getFullYear();
   const wonDeals = deals.filter(d => d.stage === 'Won');
-  // Projects = one-time deals (not retainers)
-  const projectDeals = wonDeals.filter(d => !d.isRetainer);
-  const projectWon = projectDeals.reduce((s, d) => s + d.estimatedValue, 0);
-  const projectCollected = projectDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
+  // Project revenue = all won deals with estimatedValue (one-time work)
+  const projectWon = wonDeals.reduce((s, d) => s + d.estimatedValue, 0);
+  const projectCollected = wonDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
   const projectOwed = projectWon - projectCollected;
-  // Recurring = retainer deals
-  const retainerDeals = wonDeals.filter(d => d.isRetainer);
+  // Recurring = deals with monthly retainer
+  const retainerDeals = wonDeals.filter(d => d.monthlyRetainer > 0);
   const yearlyMRR = mrr * 12;
-  // Only projects show in "Who Owes Us"
-  const owedDeals = projectDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
+  // "Who Owes Us" = any won deal with outstanding balance
+  const owedDeals = wonDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
 
   return (
     <div className="p-4 md:p-6 overflow-y-auto h-full space-y-6">
@@ -326,7 +325,7 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
             <div className="text-xs text-green-400/70">Outstanding</div>
           </div>
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-white">{projectDeals.length}</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">{wonDeals.length}</div>
             <div className="text-xs text-green-400/70">Deals Won</div>
           </div>
         </div>
@@ -617,7 +616,7 @@ const SERVICE_TIERS: Record<string, { tiers: { name: string; price: number; labe
       { name: 'Custom', price: 0, label: 'Custom' },
     ],
   },
-  'Hosting': { recurring: true, tiers: [{ name: 'Standard', price: 25, label: '$25/mo' }, { name: 'Premium', price: 50, label: '$50/mo' }, { name: 'Custom', price: 0, label: 'Custom' }] },
+  'Hosting': { recurring: true, tiers: [{ name: 'Standard', price: 50, label: '$50/mo' }, { name: 'Custom', price: 0, label: 'Custom' }] },
   'AI Automation': { tiers: [{ name: 'Custom', price: 0, label: 'Custom' }] },
   'Branding': { tiers: [{ name: 'Custom', price: 0, label: 'Custom' }] },
 };
