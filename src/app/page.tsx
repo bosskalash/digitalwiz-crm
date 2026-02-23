@@ -562,6 +562,165 @@ function Info({ label, value }: { label: string; value: string }) {
   return <div><div className="text-xs text-gray-500">{label}</div><div className="text-gray-200">{value}</div></div>;
 }
 
+// ─── Service Tier Pricing ────────────────────────────────────────────
+const SERVICE_TIERS: Record<string, { tiers: { name: string; price: number; label: string }[]; recurring?: boolean }> = {
+  'Website': {
+    tiers: [
+      { name: 'Starter', price: 1200, label: '$1,200' },
+      { name: 'Professional', price: 2499, label: '$2,499' },
+      { name: 'Enterprise', price: 4499, label: '$4,499' },
+      { name: 'Custom', price: 0, label: 'Custom' },
+    ],
+  },
+  'SEO': {
+    recurring: true,
+    tiers: [
+      { name: 'Starter', price: 399, label: '$399/mo' },
+      { name: 'Growth', price: 999, label: '$999/mo' },
+      { name: 'Domination', price: 2499, label: '$2,499/mo' },
+      { name: 'Custom', price: 0, label: 'Custom' },
+    ],
+  },
+  'Google Ads': {
+    recurring: true,
+    tiers: [
+      { name: 'Starter', price: 699, label: '$699/mo' },
+      { name: 'Growth', price: 1299, label: '$1,299/mo' },
+      { name: 'Enterprise', price: 2499, label: '$2,499/mo' },
+      { name: 'Custom', price: 0, label: 'Custom' },
+    ],
+  },
+  'Facebook/IG Ads': {
+    recurring: true,
+    tiers: [
+      { name: 'Starter', price: 499, label: '$499/mo' },
+      { name: 'Growth', price: 999, label: '$999/mo' },
+      { name: 'Enterprise', price: 1999, label: '$1,999/mo' },
+      { name: 'Custom', price: 0, label: 'Custom' },
+    ],
+  },
+  'Hosting': { recurring: true, tiers: [{ name: 'Standard', price: 25, label: '$25/mo' }, { name: 'Premium', price: 50, label: '$50/mo' }, { name: 'Custom', price: 0, label: 'Custom' }] },
+  'AI Automation': { tiers: [{ name: 'Custom', price: 0, label: 'Custom' }] },
+  'Branding': { tiers: [{ name: 'Custom', price: 0, label: 'Custom' }] },
+};
+
+function ServiceTierPicker({ form, setForm }: { form: Deal; setForm: (d: Deal) => void }) {
+  // Parse current selections: "Website:Professional, SEO:Growth" or legacy "Website, SEO"
+  const parseSelections = (): Record<string, { tier: string; customPrice: number }> => {
+    const map: Record<string, { tier: string; customPrice: number }> = {};
+    (form.service || '').split(', ').filter(Boolean).forEach(s => {
+      const [svc, tier] = s.includes(':') ? s.split(':') : [s, ''];
+      if (SERVICE_TIERS[svc]) {
+        map[svc] = { tier: tier || SERVICE_TIERS[svc].tiers[0]?.name || '', customPrice: 0 };
+      }
+    });
+    return map;
+  };
+
+  const [selections, setSelections] = useState(parseSelections);
+  const [customPrices, setCustomPrices] = useState<Record<string, string>>({});
+
+  const updateForm = (newSel: typeof selections) => {
+    const services = Object.entries(newSel).map(([svc, s]) => `${svc}:${s.tier}`).join(', ');
+    let oneTime = 0;
+    let monthly = 0;
+    Object.entries(newSel).forEach(([svc, s]) => {
+      const config = SERVICE_TIERS[svc];
+      const tierDef = config?.tiers.find(t => t.name === s.tier);
+      const price = s.tier === 'Custom' ? (Number(customPrices[svc]) || s.customPrice || 0) : (tierDef?.price || 0);
+      if (config?.recurring) monthly += price;
+      else oneTime += price;
+    });
+    const hasRecurring = Object.entries(newSel).some(([svc]) => SERVICE_TIERS[svc]?.recurring);
+    setForm({ ...form, service: services as any, estimatedValue: oneTime, monthlyRetainer: monthly, isRetainer: hasRecurring });
+  };
+
+  const toggleService = (svc: string) => {
+    const next = { ...selections };
+    if (next[svc]) { delete next[svc]; } else { next[svc] = { tier: SERVICE_TIERS[svc].tiers[0]?.name || '', customPrice: 0 }; }
+    setSelections(next);
+    updateForm(next);
+  };
+
+  const setTier = (svc: string, tier: string) => {
+    const next = { ...selections, [svc]: { ...selections[svc], tier } };
+    setSelections(next);
+    updateForm(next);
+  };
+
+  const setCustomPrice = (svc: string, val: string) => {
+    setCustomPrices(prev => ({ ...prev, [svc]: val }));
+    const next = { ...selections, [svc]: { ...selections[svc], customPrice: Number(val) || 0 } };
+    setSelections(next);
+    // Recalculate
+    let oneTime = 0, monthly = 0;
+    Object.entries(next).forEach(([s, sel]) => {
+      const config = SERVICE_TIERS[s];
+      const tierDef = config?.tiers.find(t => t.name === sel.tier);
+      const price = sel.tier === 'Custom' ? (s === svc ? Number(val) || 0 : Number(customPrices[s]) || sel.customPrice || 0) : (tierDef?.price || 0);
+      if (config?.recurring) monthly += price; else oneTime += price;
+    });
+    const hasRecurring = Object.entries(next).some(([s]) => SERVICE_TIERS[s]?.recurring);
+    setForm({ ...form, service: Object.entries(next).map(([s, sel]) => `${s}:${sel.tier}`).join(', ') as any, estimatedValue: oneTime, monthlyRetainer: monthly, isRetainer: hasRecurring });
+  };
+
+  // Summary
+  const oneTimeTotal = Object.entries(selections).reduce((sum, [svc, s]) => {
+    if (SERVICE_TIERS[svc]?.recurring) return sum;
+    const tierDef = SERVICE_TIERS[svc]?.tiers.find(t => t.name === s.tier);
+    return sum + (s.tier === 'Custom' ? (Number(customPrices[svc]) || s.customPrice || 0) : (tierDef?.price || 0));
+  }, 0);
+  const monthlyTotal = Object.entries(selections).reduce((sum, [svc, s]) => {
+    if (!SERVICE_TIERS[svc]?.recurring) return sum;
+    const tierDef = SERVICE_TIERS[svc]?.tiers.find(t => t.name === s.tier);
+    return sum + (s.tier === 'Custom' ? (Number(customPrices[svc]) || s.customPrice || 0) : (tierDef?.price || 0));
+  }, 0);
+
+  return (
+    <div>
+      <label className="text-xs text-gray-500 block mb-2">Services & Pricing</label>
+      <div className="space-y-2">
+        {Object.keys(SERVICE_TIERS).map(svc => {
+          const active = !!selections[svc];
+          return (
+            <div key={svc} className={`rounded-lg border transition-colors ${active ? 'border-blue-500 bg-blue-600/10' : 'border-gray-700 bg-gray-800/50'}`}>
+              <label className="flex items-center gap-2 px-3 py-2 cursor-pointer">
+                <input type="checkbox" checked={active} onChange={() => toggleService(svc)} className="sr-only" />
+                <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${active ? 'bg-blue-600 border-blue-500' : 'border-gray-600'}`}>
+                  {active && <span className="text-white text-xs">✓</span>}
+                </div>
+                <span className={`text-sm font-medium ${active ? 'text-blue-400' : 'text-gray-400'}`}>{svc}</span>
+                {SERVICE_TIERS[svc].recurring && <span className="text-[10px] text-green-400/70 ml-auto">recurring</span>}
+              </label>
+              {active && SERVICE_TIERS[svc].tiers.length > 1 && (
+                <div className="px-3 pb-2 flex flex-wrap gap-1.5">
+                  {SERVICE_TIERS[svc].tiers.map(t => (
+                    <button key={t.name} type="button" onClick={() => setTier(svc, t.name)}
+                      className={`px-2.5 py-1 rounded text-xs font-medium transition ${selections[svc]?.tier === t.name ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-400 hover:bg-gray-600'}`}>
+                      {t.name} {t.name !== 'Custom' && <span className="opacity-70">{t.label}</span>}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {active && selections[svc]?.tier === 'Custom' && (
+                <div className="px-3 pb-2">
+                  <Input label={`Custom ${SERVICE_TIERS[svc].recurring ? '$/mo' : '$'}`} value={customPrices[svc] || ''} onChange={e => setCustomPrice(svc, e.target.value)} type="number" />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {(oneTimeTotal > 0 || monthlyTotal > 0) && (
+        <div className="mt-3 p-2.5 bg-gray-800/80 rounded-lg flex gap-4">
+          {oneTimeTotal > 0 && <div><div className="text-[10px] text-gray-500">One-Time</div><div className="text-sm font-bold text-white">${oneTimeTotal.toLocaleString()}</div></div>}
+          {monthlyTotal > 0 && <div><div className="text-[10px] text-gray-500">Monthly</div><div className="text-sm font-bold text-green-400">${monthlyTotal.toLocaleString()}/mo</div></div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d: Deal) => void; onSave: () => void; onCancel: () => void }) {
   const f = (field: keyof Deal) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [field]: field === 'estimatedValue' ? Number(e.target.value) || 0 : e.target.value });
@@ -574,28 +733,7 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
       <Input label="Email" value={form.email} onChange={f('email')} />
       <Input label="Website" value={form.website || ''} onChange={f('website')} />
       <Input label="Google Business URL" value={form.gbpUrl || ''} onChange={f('gbpUrl')} />
-      <div>
-        <label className="text-xs text-gray-500 block mb-1">Services</label>
-        <div className="grid grid-cols-2 gap-2">
-          {['Website', 'SEO', 'Google Ads', 'Facebook/IG Ads', 'Hosting', 'AI Automation', 'Branding'].map(svc => {
-            const selected = (form.service || '').split(', ').filter(Boolean);
-            const isChecked = selected.includes(svc);
-            return (
-              <label key={svc} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm cursor-pointer border transition-colors ${isChecked ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600'}`}>
-                <input type="checkbox" checked={isChecked} onChange={() => {
-                  const next = isChecked ? selected.filter(s => s !== svc) : [...selected, svc];
-                  setForm({ ...form, service: next.join(', ') as any });
-                }} className="sr-only" />
-                <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${isChecked ? 'bg-blue-600 border-blue-500' : 'border-gray-600'}`}>
-                  {isChecked && <span className="text-white text-xs">✓</span>}
-                </div>
-                {svc}
-              </label>
-            );
-          })}
-        </div>
-      </div>
-      <Input label="Est. Value ($)" value={form.estimatedValue.toString()} onChange={f('estimatedValue')} type="number" />
+      <ServiceTierPicker form={form} setForm={setForm} />
       {!form.isRetainer && <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />}
       <div className="flex items-center gap-3 mt-1">
         <label className="text-xs text-gray-500">Retainer Client</label>
@@ -638,28 +776,15 @@ function Input({ label, value, onChange, type = 'text' }: { label: string; value
 
 /* ====== QUICK ADD ====== */
 function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Deal) => void }) {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
-  const [gbpUrl, setGbpUrl] = useState('');
-  const [notes, setNotes] = useState('');
-  const [value, setValue] = useState('');
-  const [services, setServices] = useState<string[]>([]);
-
-  function toggleSvc(svc: string) {
-    setServices(prev => prev.includes(svc) ? prev.filter(s => s !== svc) : [...prev, svc]);
-  }
+  const [form, setForm] = useState<Deal>({
+    id: uuid(), businessName: '', contactPerson: '', phone: '', email: '', website: '', gbpUrl: '',
+    service: '' as any, estimatedValue: 0, stage: 'Prospect', lastInteraction: new Date().toISOString(),
+    notes: '', activities: [], createdAt: new Date().toISOString(), amountPaid: 0, isRetainer: false, monthlyRetainer: 0,
+  });
 
   function submit() {
-    if (!name.trim()) return;
-    const deal: Deal = {
-      id: uuid(), businessName: name.trim(), contactPerson: '', phone, email, website, gbpUrl, service: services.join(', ') as any,
-      estimatedValue: Number(value) || 0, stage: 'Prospect', lastInteraction: new Date().toISOString(),
-      notes, activities: [{ id: uuid(), type: 'created', description: 'Deal created', timestamp: new Date().toISOString() }],
-      createdAt: new Date().toISOString(), amountPaid: 0, isRetainer: false, monthlyRetainer: 0,
-    };
-    onAdd(deal);
+    if (!form.businessName.trim()) return;
+    onAdd({ ...form, activities: [{ id: uuid(), type: 'created', description: 'Deal created', timestamp: new Date().toISOString() }] });
     onClose();
   }
 
@@ -668,29 +793,15 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
       <div className="bg-gray-900 rounded-2xl w-full max-w-sm p-5 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <h2 className="text-lg font-bold mb-4">Quick Add Prospect</h2>
         <div className="space-y-3">
-          <Input label="Business Name *" value={name} onChange={e => setName(e.target.value)} />
-          <Input label="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
-          <Input label="Email" value={email} onChange={e => setEmail(e.target.value)} />
-          <Input label="Website" value={website} onChange={e => setWebsite(e.target.value)} />
-          <Input label="Google Business URL" value={gbpUrl} onChange={e => setGbpUrl(e.target.value)} />
-          <div>
-            <label className="text-xs text-gray-500 block mb-1">Services</label>
-            <div className="grid grid-cols-2 gap-2">
-              {['Website', 'SEO', 'Google Ads', 'Facebook/IG Ads', 'Hosting', 'AI Automation', 'Branding'].map(svc => (
-                <label key={svc} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm cursor-pointer border transition-colors ${services.includes(svc) ? 'bg-blue-600/20 border-blue-500 text-blue-400' : 'bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600'}`}>
-                  <input type="checkbox" checked={services.includes(svc)} onChange={() => toggleSvc(svc)} className="sr-only" />
-                  <div className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 ${services.includes(svc) ? 'bg-blue-600 border-blue-500' : 'border-gray-600'}`}>
-                    {services.includes(svc) && <span className="text-white text-xs">✓</span>}
-                  </div>
-                  {svc}
-                </label>
-              ))}
-            </div>
-          </div>
-          <Input label="Est. Value ($)" value={value} onChange={e => setValue(e.target.value)} type="number" />
+          <Input label="Business Name *" value={form.businessName} onChange={e => setForm({...form, businessName: e.target.value})} />
+          <Input label="Phone" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+          <Input label="Email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+          <Input label="Website" value={form.website} onChange={e => setForm({...form, website: e.target.value})} />
+          <Input label="Google Business URL" value={form.gbpUrl} onChange={e => setForm({...form, gbpUrl: e.target.value})} />
+          <ServiceTierPicker form={form} setForm={setForm} />
           <div>
             <label className="text-xs text-gray-500">Notes</label>
-            <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={2} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1" />
+            <textarea value={form.notes} onChange={e => setForm({...form, notes: e.target.value})} rows={2} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1" />
           </div>
         </div>
         <div className="flex gap-2 mt-4">
