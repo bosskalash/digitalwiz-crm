@@ -20,6 +20,7 @@ interface DealRow {
   created_at: string;
   amount_paid: number;
   is_retainer: boolean;
+  monthly_retainer: number;
 }
 
 interface RetainerRow {
@@ -50,6 +51,7 @@ function rowToDeal(r: DealRow): Deal {
     createdAt: r.created_at || new Date().toISOString(),
     amountPaid: Number(r.amount_paid) || 0,
     isRetainer: r.is_retainer ?? false,
+    monthlyRetainer: Number(r.monthly_retainer) || 0,
   };
 }
 
@@ -71,6 +73,7 @@ function dealToRow(d: Deal): DealRow {
     created_at: d.createdAt,
     amount_paid: d.amountPaid,
     is_retainer: d.isRetainer,
+    monthly_retainer: d.monthlyRetainer || 0,
   };
 }
 

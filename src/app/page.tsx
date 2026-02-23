@@ -469,13 +469,22 @@ function DealDetail({ deal, onClose, onUpdate, onDelete, onMove }: { deal: Deal;
               <Info label="Last Contact" value={new Date(deal.lastInteraction).toLocaleDateString()} />
               {deal.stage === 'Won' && (
                 <>
-                  {!deal.isRetainer && <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />}
-                  <div>
-                    <div className="text-xs text-gray-500">{deal.isRetainer ? 'Billing' : 'Balance Owed'}</div>
-                    <div className={`font-semibold ${deal.isRetainer ? 'text-blue-400' : (deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
-                      {deal.isRetainer ? '↻ Recurring retainer' : (deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
+                  {deal.isRetainer ? (
+                    <div>
+                      <div className="text-xs text-gray-500">Monthly Retainer</div>
+                      <div className="font-semibold text-blue-400">${(deal.monthlyRetainer || 0).toLocaleString()}/mo</div>
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />
+                      <div>
+                        <div className="text-xs text-gray-500">Balance Owed</div>
+                        <div className={`font-semibold ${(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
+                          {(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </div>
@@ -587,7 +596,7 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
         </div>
       </div>
       <Input label="Est. Value ($)" value={form.estimatedValue.toString()} onChange={f('estimatedValue')} type="number" />
-      <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />
+      {!form.isRetainer && <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />}
       <div className="flex items-center gap-3 mt-1">
         <label className="text-xs text-gray-500">Retainer Client</label>
         <button
@@ -597,8 +606,9 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
         >
           <span className={`block w-4 h-4 bg-white rounded-full absolute top-1 transition-transform ${form.isRetainer ? 'translate-x-5' : 'translate-x-1'}`} />
         </button>
-        <span className="text-xs text-gray-400">{form.isRetainer ? 'Yes — excluded from "Who Owes Us"' : 'No — one-time project'}</span>
+        <span className="text-xs text-gray-400">{form.isRetainer ? 'Yes — recurring monthly' : 'No — one-time project'}</span>
       </div>
+      {form.isRetainer && <Input label="Monthly Retainer ($)" value={(form.monthlyRetainer || 0).toString()} onChange={e => setForm({ ...form, monthlyRetainer: Number(e.target.value) || 0 })} type="number" />}
       <div>
         <label className="text-xs text-gray-500">Stage</label>
         <select value={form.stage} onChange={f('stage') as any} className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm mt-1 min-h-[44px]">
@@ -647,7 +657,7 @@ function QuickAddModal({ onClose, onAdd }: { onClose: () => void; onAdd: (d: Dea
       id: uuid(), businessName: name.trim(), contactPerson: '', phone, email, website, gbpUrl, service: services.join(', ') as any,
       estimatedValue: Number(value) || 0, stage: 'Prospect', lastInteraction: new Date().toISOString(),
       notes, activities: [{ id: uuid(), type: 'created', description: 'Deal created', timestamp: new Date().toISOString() }],
-      createdAt: new Date().toISOString(), amountPaid: 0, isRetainer: false,
+      createdAt: new Date().toISOString(), amountPaid: 0, isRetainer: false, monthlyRetainer: 0,
     };
     onAdd(deal);
     onClose();

@@ -31,6 +31,7 @@ export interface Deal {
   createdAt: string;
   amountPaid: number;
   isRetainer: boolean;
+  monthlyRetainer: number;
 }
 
 export interface Retainer {
