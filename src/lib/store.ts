@@ -133,14 +133,8 @@ export async function getDealsAsync(): Promise<Deal[]> {
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Supabase deals error (falling back to JSON):', error.message);
-    const fb = await loadJsonFallback();
-    return fb.deals;
-  }
-  if (!data || data.length === 0) {
-    // Table might be empty or not exist — try JSON fallback
-    const fb = await loadJsonFallback();
-    if (fb.deals.length > 0) return fb.deals;
+    console.error('Supabase deals error:', error.message);
+    return [];
   }
   return (data || []).map(rowToDeal);
 }
@@ -180,13 +174,8 @@ export async function getRetainersAsync(): Promise<Retainer[]> {
     .order('client_name', { ascending: true });
 
   if (error) {
-    console.error('Supabase retainers error (falling back to JSON):', error.message);
-    const fb = await loadJsonFallback();
-    return fb.retainers;
-  }
-  if (!data || data.length === 0) {
-    const fb = await loadJsonFallback();
-    if (fb.retainers.length > 0) return fb.retainers;
+    console.error('Supabase retainers error:', error.message);
+    return [];
   }
   return (data || []).map(rowToRetainer);
 }
