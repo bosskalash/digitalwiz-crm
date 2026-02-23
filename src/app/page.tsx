@@ -168,8 +168,11 @@ export default function Home() {
                                         <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
                                         {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
                                       </div>
-                                      {deal.stage === 'Won' && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
+                                      {deal.stage === 'Won' && !deal.isRetainer && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
                                         <div className="text-[10px] text-yellow-400 mt-1">💸 ${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()} owed</div>
+                                      )}
+                                      {deal.isRetainer && deal.monthlyRetainer > 0 && (
+                                        <div className="text-[10px] text-blue-400 mt-1">↻ ${deal.monthlyRetainer}/mo</div>
                                       )}
                                     </div>
                                   )}
@@ -255,8 +258,11 @@ function MobilePipelineView({ deals, onSelect, onMove }: { deals: Deal[]; onSele
                       <span className="text-xs text-blue-400 font-semibold">${deal.estimatedValue.toLocaleString()}</span>
                       {deal.service && <span className="text-[10px] bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">{deal.service}</span>}
                     </div>
-                    {deal.stage === 'Won' && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
+                    {deal.stage === 'Won' && !deal.isRetainer && (deal.estimatedValue - (deal.amountPaid || 0)) > 0 && (
                       <div className="text-xs text-yellow-400 mt-1">💸 ${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()} owed</div>
+                    )}
+                    {deal.isRetainer && deal.monthlyRetainer > 0 && (
+                      <div className="text-xs text-blue-400 mt-1">↻ ${deal.monthlyRetainer}/mo</div>
                     )}
                     {/* Mobile move stage */}
                     <div className="mt-3 pt-2 border-t border-gray-700" onClick={e => e.stopPropagation()}>
