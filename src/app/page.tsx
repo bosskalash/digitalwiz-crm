@@ -470,11 +470,11 @@ function DealDetail({ deal, onClose, onUpdate, onDelete, onMove }: { deal: Deal;
               <Info label="Last Contact" value={new Date(deal.lastInteraction).toLocaleDateString()} />
               {deal.stage === 'Won' && (
                 <>
-                  <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />
+                  {!deal.isRetainer && <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />}
                   <div>
-                    <div className="text-xs text-gray-500">Balance Owed</div>
-                    <div className={`font-semibold ${(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
-                      {(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
+                    <div className="text-xs text-gray-500">{deal.isRetainer ? 'Billing' : 'Balance Owed'}</div>
+                    <div className={`font-semibold ${deal.isRetainer ? 'text-blue-400' : (deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
+                      {deal.isRetainer ? '↻ Recurring retainer' : (deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
                     </div>
                   </div>
                 </>
