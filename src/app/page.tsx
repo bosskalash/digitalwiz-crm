@@ -290,12 +290,11 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
 
   const currentYear = new Date().getFullYear();
   const wonDeals = deals.filter(d => d.stage === 'Won');
-  const projectDeals = wonDeals.filter(d => !d.isRetainer);
-  const totalEarned = projectDeals.reduce((s, d) => s + d.estimatedValue, 0);
-  const totalCollected = projectDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
+  const totalEarned = wonDeals.reduce((s, d) => s + d.estimatedValue, 0);
+  const totalCollected = wonDeals.reduce((s, d) => s + (d.amountPaid || 0), 0);
   const totalOwed = totalEarned - totalCollected;
   const yearlyMRR = mrr * 12;
-  const owedDeals = projectDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
+  const owedDeals = wonDeals.filter(d => (d.estimatedValue - (d.amountPaid || 0)) > 0);
 
   return (
     <div className="p-4 md:p-6 overflow-y-auto h-full space-y-6">
@@ -324,7 +323,7 @@ function Dashboard({ deals, mrr, totalPipeline, onSelect }: { deals: Deal[]; ret
             <div className="text-xs text-green-400/70">Projected Annual</div>
           </div>
           <div>
-            <div className="text-2xl md:text-3xl font-bold text-white">{projectDeals.length}</div>
+            <div className="text-2xl md:text-3xl font-bold text-white">{wonDeals.length}</div>
             <div className="text-xs text-green-400/70">Deals Won</div>
           </div>
         </div>
@@ -469,21 +468,18 @@ function DealDetail({ deal, onClose, onUpdate, onDelete, onMove }: { deal: Deal;
               <Info label="Last Contact" value={new Date(deal.lastInteraction).toLocaleDateString()} />
               {deal.stage === 'Won' && (
                 <>
-                  {deal.isRetainer ? (
+                  <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />
+                  <div>
+                    <div className="text-xs text-gray-500">Balance Owed</div>
+                    <div className={`font-semibold ${(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
+                      {(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
+                    </div>
+                  </div>
+                  {deal.isRetainer && deal.monthlyRetainer > 0 && (
                     <div>
                       <div className="text-xs text-gray-500">Monthly Retainer</div>
-                      <div className="font-semibold text-blue-400">${(deal.monthlyRetainer || 0).toLocaleString()}/mo</div>
+                      <div className="font-semibold text-blue-400">${(deal.monthlyRetainer).toLocaleString()}/mo</div>
                     </div>
-                  ) : (
-                    <>
-                      <Info label="Paid" value={`$${(deal.amountPaid || 0).toLocaleString()}`} />
-                      <div>
-                        <div className="text-xs text-gray-500">Balance Owed</div>
-                        <div className={`font-semibold ${(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? 'text-yellow-400' : 'text-green-400'}`}>
-                          {(deal.estimatedValue - (deal.amountPaid || 0)) > 0 ? `$${(deal.estimatedValue - (deal.amountPaid || 0)).toLocaleString()}` : '✓ Paid in full'}
-                        </div>
-                      </div>
-                    </>
                   )}
                 </>
               )}
@@ -734,7 +730,7 @@ function EditForm({ form, setForm, onSave, onCancel }: { form: Deal; setForm: (d
       <Input label="Website" value={form.website || ''} onChange={f('website')} />
       <Input label="Google Business URL" value={form.gbpUrl || ''} onChange={f('gbpUrl')} />
       <ServiceTierPicker form={form} setForm={setForm} />
-      {!form.isRetainer && <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />}
+      <Input label="Amount Paid ($)" value={(form.amountPaid || 0).toString()} onChange={e => setForm({ ...form, amountPaid: Number(e.target.value) || 0 })} type="number" />
       <div className="flex items-center gap-3 mt-1">
         <label className="text-xs text-gray-500">Retainer Client</label>
         <button
